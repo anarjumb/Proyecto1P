@@ -15,6 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -43,40 +45,54 @@ public class PantallaComprador {
             BoxButton = new HBox();
 
 
-            buscar = new Button("buscar");
-            arttop = new Button("articulos top");
-            compend = new Button("compras");
-            salir = new Button("salir");
-            venPen = new Button("ventas pendientes");
-            misProd = new Button("mis productos--");
+            buscar = new Button("Buscar");
+            arttop = new Button("Articulos Top");
+            compend = new Button("Compras");
+            salir = new Button("Salir");
+            venPen = new Button("Ventas Pendientes");
+            misProd = new Button("Mis Productos--");
             
             busqueda = new TextField();
             
             
             lblbuscar = new Label("Ingrese búsqueda: ");
+            lblbuscar.setTextFill(Color.web("#59FF33"));
+            lblbuscar.setFont(Font.font("Cambria", 27));
+            
+            
             
             
            
+            
+            
+            
+            
+            
+            
+            
+            DarEfectoBoton(misProd);
             misProd.setOnAction(e -> PoliVentas.cambiarVentana(root, new Registro().getRoot()));
             
-
-           buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
-
-
             
-
-            buscar.setOnMouseEntered((MouseEvent e) -> {
-                buscar.setScaleX(1.1);
-                buscar.setScaleY(1.1);
-            });
-
-            buscar.setOnMouseExited((MouseEvent e) -> {
-                buscar.setScaleX(1);
-                buscar.setScaleY(1);
-            });
-
-        //    inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
             
+            DarEfectoBoton(arttop);
+            //
+            
+            DarEfectoBoton(compend);
+            //
+            
+            
+            DarEfectoBoton(venPen);
+            //
+            
+           
+            DarEfectoBoton(buscar);
+            buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
+
+   
+        
+        
+            DarEfectoBoton(salir);
             salir.setOnAction(e -> PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
             
             
@@ -95,7 +111,7 @@ public class PantallaComprador {
 
 
 
-            root.setStyle("-fx-background-image: url('/imagenes/iniciojuego.jpg'); "
+            root.setStyle("-fx-background-image: url('/imagenes/pantalla.jpg'); "
                     + "-fx-background-position: center center; "
                     + "-fx-background-repeat: stretch;"
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
@@ -110,6 +126,23 @@ public class PantallaComprador {
         BorderPane getRoot() {
             return root;
         }
+        
+         public void DarEfectoBoton(Button boton){
+            boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
+        
+
+            boton.setOnMouseEntered((MouseEvent e) -> {
+                boton.setScaleX(1.1);
+                boton.setScaleY(1.1);
+            });
+
+            boton.setOnMouseExited((MouseEvent e) -> {
+                boton.setScaleX(1);
+                boton.setScaleY(1);
+            });
+        }
+        
+       
 
     
 }

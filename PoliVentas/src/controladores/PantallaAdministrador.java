@@ -38,9 +38,9 @@ public class PantallaAdministrador {
            
 
 
-            admUser = new Button("administrar usuarios");
-            admProd = new Button("adminsitrar productos");
-            salir = new Button("salir");
+            admUser = new Button("Administrar Usuarios");
+            admProd = new Button("Adminsitrar Productos");
+            salir = new Button("Salir");
            
             
             
@@ -51,13 +51,19 @@ public class PantallaAdministrador {
             
 
            
-
+            DarEfectoBoton(admUser);
+            //
+            
+            DarEfectoBoton(admProd);
+            //
 
             
 
             
 
         //    inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
+        
+            DarEfectoBoton(salir);
             
             salir.setOnAction(e -> PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
             
@@ -76,7 +82,7 @@ public class PantallaAdministrador {
 
 
 
-            root.setStyle("-fx-background-image: url('/imagenes/iniciojuego.jpg'); "
+            root.setStyle("-fx-background-image: url('/imagenes/pantalla.jpg'); "
                     + "-fx-background-position: center center; "
                     + "-fx-background-repeat: stretch;"
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
@@ -89,6 +95,22 @@ public class PantallaAdministrador {
 
         BorderPane getRoot() {
             return root;
+        }
+        
+        
+        public void DarEfectoBoton(Button boton){
+            boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
+        
+
+            boton.setOnMouseEntered((MouseEvent e) -> {
+                boton.setScaleX(1.1);
+                boton.setScaleY(1.1);
+            });
+
+            boton.setOnMouseExited((MouseEvent e) -> {
+                boton.setScaleX(1);
+                boton.setScaleY(1);
+            });
         }
 
     

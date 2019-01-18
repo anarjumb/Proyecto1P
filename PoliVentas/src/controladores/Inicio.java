@@ -29,9 +29,10 @@ public class Inicio {
     private HBox BoxUser, BoxPass;
     private TextField usuario, clave;
     private Label lbluser, lblpass;
+    
 
 
-    private VBox box;
+    private VBox box, boxlabel, boxfield;
 
     Inicio(){        
 
@@ -44,10 +45,12 @@ public class Inicio {
             box = new VBox();
             BoxUser = new HBox();
             BoxPass = new HBox();
+            boxlabel = new VBox();
+            boxfield = new VBox();
 
 
-            inicio = new Button("iniciar sesion");
-            salir = new Button("salir");
+            inicio = new Button("Iniciar Sesion");
+            salir = new Button("Salir");
             
             usuario = new TextField();
             clave = new TextField();
@@ -55,54 +58,55 @@ public class Inicio {
             lbluser = new Label("Ingrese usuario: ");
             lblpass = new Label("Ingrese clave: ");
             
-            lbluser.setTextFill(Color.web("#0076a3"));
-            lblpass.setTextFill(Color.web("#0076a3"));
+            lbluser.setTextFill(Color.web("#59FF33"));
+            lblpass.setTextFill(Color.web("#59FF33"));
             
             usuario.setPromptText("User..");
             clave.setPromptText("Password..");
             
-            lbluser.setFont(Font.font("Cambria", 25));
-            lblpass.setFont(Font.font("Cambria", 25));
+            lbluser.setFont(Font.font("Cambria", 27));
+            lblpass.setFont(Font.font("Cambria", 27));
             
 
            
 
 
-           /* inicio.setStyle("-fx-background-color: transparent; ");
-            ImageView image = new ImageView("/imagenes/jugargoku.png");
-            image.setFitWidth(260);
-            image.setFitHeight(150);
-            inicio.setGraphic(image);*/
 
-            inicio.setOnMouseEntered((MouseEvent e) -> {
-                inicio.setScaleX(1.1);
-                inicio.setScaleY(1.1);
-            });
-
-            inicio.setOnMouseExited((MouseEvent e) -> {
-                inicio.setScaleX(1);
-                inicio.setScaleY(1);
-            });
-
-           inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaBusqueda().getRoot()));
+            DarEfectoBoton(inicio);
+            inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
+            
+            
+            
+           
+           
+           
+           
+           DarEfectoBoton(salir);
             
             salir.setOnAction(e ->Platform.exit());
             
             
-            BoxUser.getChildren().addAll(lbluser,usuario);
             
-            BoxPass.getChildren().addAll(lblpass,clave);
             
+            boxlabel.getChildren().addAll(lbluser,lblpass);
+            boxlabel.setSpacing(30);
+            
+            boxfield.getChildren().addAll(usuario,clave);
+            boxfield.setSpacing(35);
+            
+            boxlabel.setAlignment(Pos.TOP_LEFT);
+            boxfield.setAlignment(Pos.BASELINE_LEFT);
+            
+            BoxUser.getChildren().addAll(boxlabel,boxfield);
+
             BoxUser.setAlignment(Pos.CENTER);
-            BoxPass.setAlignment(Pos.CENTER);
+            BoxUser.setSpacing(35);
 
+            box.getChildren().addAll(BoxUser,inicio,salir);
 
+            
 
-            box.getChildren().addAll(BoxUser,BoxPass,inicio,salir);
-
-
-
-            root.setStyle("-fx-background-image: url('/imagenes/escenario.jpg'); "
+            root.setStyle("-fx-background-image: url('/imagenes/inicio.jpg'); "
                     + "-fx-background-position: center center; "
                     + "-fx-background-repeat: stretch;"
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
@@ -116,6 +120,22 @@ public class Inicio {
 
         BorderPane getRoot() {
             return root;
+        }
+        
+        
+         public void DarEfectoBoton(Button boton){
+            boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
+        
+
+            boton.setOnMouseEntered((MouseEvent e) -> {
+                boton.setScaleX(1.1);
+                boton.setScaleY(1.1);
+            });
+
+            boton.setOnMouseExited((MouseEvent e) -> {
+                boton.setScaleX(1);
+                boton.setScaleY(1);
+            });
         }
 
 

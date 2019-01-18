@@ -5,10 +5,49 @@
  */
 package controladores;
 
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+//import static jdk.nashorn.internal.objects.NativeString.search;
+
 /**
  *
  * @author adan
  */
 public class Busqueda {
+    
+    
+    /*
+    
+    TableView<String> tableView = new TableView<>();
+ //   tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+    TableColumn<String,String> tcNombre = new TableColumn<>("Nombre");
+  //  tcNombre.setCellValueFactory(c -> c.getValue().firstNameProperty());
+
+    TableColumn<String, String> tcApellido = new TableColumn<>("Apellido");
+   // tcApellido.setCellValueFactory(c -> c.getValue().lastNameProperty());
+
+    TableColumn<String, Number> tcEdad = new TableColumn<>("Edad");
+    //tcEdad.setCellValueFactory(c -> c.getValue().ageProperty());
+
+    tableView.getColumns().add(tcNombre);
+    tableView.getColumns().add(tcApellido);
+    tableView.getColumns().add(tcEdad);
+   // tableView.setItems(createPersonList());
+
+    TextField search = new TextField();
+    search.setPromptText("Buscar...");
+  //  HBox.setHgrow(search, Priority.ALWAYS);
+
+    HBox searchBar = new HBox();
+    searchBar.getChildren().add(search);
+
+    VBox root = new VBox();
+    root.setSpacing(5);
+    //root.setPadding(new Insets(10.0));
+    root.getChildren().addAll(searchBar, tableView);*/
     
 }
