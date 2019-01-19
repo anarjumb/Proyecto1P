@@ -5,6 +5,13 @@
  */
 package controladores;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -30,6 +37,7 @@ public class Inicio {
     private TextField usuario, clave;
     private Label lbluser, lblpass;
     
+    
 
 
     private VBox box, boxlabel, boxfield;
@@ -39,7 +47,9 @@ public class Inicio {
         organizarpanel();
 
     }
-
+        
+    
+    
     public void organizarpanel(){
             root = new BorderPane();
             box = new VBox();
@@ -65,15 +75,57 @@ public class Inicio {
             clave.setPromptText("Password..");
             
             lbluser.setFont(Font.font("Cambria", 27));
-            lblpass.setFont(Font.font("Cambria", 27));
-            
+            lblpass.setFont(Font.font("Cambria", 27));          
 
            
-
+            
+            
+            
 
 
             DarEfectoBoton(inicio);
-            inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
+            inicio.setOnAction(e -> {
+                
+                
+                System.out.println("hola");
+                    try {
+                Conexion con=new Conexion();
+                        System.out.println("como");
+                con.connect();           
+
+                PreparedStatement stmt2;
+                        System.out.println("estas");
+
+                stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario=? and contrasenia=?");
+                stmt2.setString(1, usuario.getText());
+                stmt2.setString(2, clave.getText());
+                ResultSet rs2= stmt2.executeQuery();
+                if(!rs2.next()){
+                    PoliVentas.cambiarVentana(root, new Registro().getRoot());
+                }else{
+                    rs2.previous();
+                    while(rs2.next()){
+                    if(rs2.getString("tipo").equals("V")){
+                        PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+                        
+                    }else{
+                        PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+                    }     
+                }  
+                    
+                    
+                }
+                
+
+                // TODO code application logic here
+            } catch (SQLException ex) {
+                Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            
+            
+            });
             
             
             
