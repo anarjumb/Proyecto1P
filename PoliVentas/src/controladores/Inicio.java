@@ -158,7 +158,7 @@ public class Inicio {
 
             
 
-            root.setStyle("-fx-background-image: url('/imagenes/inicio.jpg'); "
+            root.setStyle("-fx-background-image: url('/imagenes/login.jpg'); "
                     + "-fx-background-position: center center; "
                     + "-fx-background-repeat: stretch;"
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");

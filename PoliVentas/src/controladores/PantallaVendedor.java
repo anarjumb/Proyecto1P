@@ -5,10 +5,12 @@
  */
 package controladores;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -22,8 +24,9 @@ import javafx.scene.text.Font;
  */
 public class PantallaVendedor {
     
+       
     private BorderPane root;
-    private Button buscar, compend,arttop,salir;
+    private Button buscar, compend,arttop,salir,venPen,misProd;
     private HBox BoxBusqueda, BoxButton;
     private TextField busqueda;
     private Label lblbuscar;
@@ -46,20 +49,30 @@ public class PantallaVendedor {
             arttop = new Button("Articulos Top");
             compend = new Button("Compras");
             salir = new Button("Salir");
+            venPen = new Button("Ventas Pendientes");
+            misProd = new Button("Mis Productos--");
             
             busqueda = new TextField();
             
             
             lblbuscar = new Label("Ingrese búsqueda: ");
-            lblbuscar.setFont(Font.font("Cambria", 27));
             lblbuscar.setTextFill(Color.web("#59FF33"));
+            lblbuscar.setFont(Font.font("Cambria", 27));
             
             
-
+            
+            
            
-
-
-       
+            
+            
+            
+            
+            
+            
+            
+            DarEfectoBoton(misProd);
+            misProd.setOnAction(e -> PoliVentas.cambiarVentana(root, new Registro().getRoot()));
+            
             
             
             DarEfectoBoton(arttop);
@@ -67,14 +80,16 @@ public class PantallaVendedor {
             
             DarEfectoBoton(compend);
             //
-
             
             
-            DarEfectoBoton(buscar);           
-             buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot()));
+            DarEfectoBoton(venPen);
+            //
+            
+           
+            DarEfectoBoton(buscar);
+            buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
 
-        //    inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
-        
+   
         
         
             DarEfectoBoton(salir);
@@ -84,7 +99,7 @@ public class PantallaVendedor {
             BoxBusqueda.getChildren().addAll(lblbuscar,busqueda,buscar);
             BoxBusqueda.setSpacing(50);
             
-            BoxButton.getChildren().addAll(compend,arttop);
+            BoxButton.getChildren().addAll(compend,arttop, venPen,misProd);
             BoxButton.setSpacing(50);
             
             BoxBusqueda.setAlignment(Pos.CENTER);
@@ -96,7 +111,7 @@ public class PantallaVendedor {
 
 
 
-            root.setStyle("-fx-background-image: url('/imagenes/pantalla.jpg'); "
+            root.setStyle("-fx-background-image: url('/imagenes/vendedor.jpg'); "
                     + "-fx-background-position: center center; "
                     + "-fx-background-repeat: stretch;"
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
@@ -112,7 +127,7 @@ public class PantallaVendedor {
             return root;
         }
         
-        public void DarEfectoBoton(Button boton){
+         public void DarEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 
@@ -126,6 +141,8 @@ public class PantallaVendedor {
                 boton.setScaleY(1);
             });
         }
+        
+       
 
     
 }
