@@ -40,7 +40,7 @@ public class PantallaAdministrador {
 
             admUser = new Button("Administrar Usuarios");
             admProd = new Button("Adminsitrar Productos");
-            salir = new Button("Salir");
+            salir = new Button("Cerrar Sesión");
            
             
             
@@ -52,9 +52,11 @@ public class PantallaAdministrador {
 
            
             DarEfectoBoton(admUser);
+            admUser.setOnAction(e -> PoliVentas.cambiarVentana(root, new AdmUsuarios().getRoot()));
             //
             
             DarEfectoBoton(admProd);
+            admProd.setOnAction(e -> PoliVentas.cambiarVentana(root, new AdmProducto().getRoot()));
             //
 
             
@@ -82,7 +84,7 @@ public class PantallaAdministrador {
 
 
 
-            root.setStyle("-fx-background-image: url('/imagenes/pantalla.jpg'); "
+            root.setStyle("-fx-background-image: url('/imagenes/admin.jpg'); "
                     + "-fx-background-position: center center; "
                     + "-fx-background-repeat: stretch;"
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");

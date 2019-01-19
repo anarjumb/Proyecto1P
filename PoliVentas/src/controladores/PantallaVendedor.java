@@ -48,7 +48,7 @@ public class PantallaVendedor {
             buscar = new Button("Buscar");
             arttop = new Button("Articulos Top");
             compend = new Button("Compras");
-            salir = new Button("Salir");
+            salir = new Button("Cerrar Sesión");
             venPen = new Button("Ventas Pendientes");
             misProd = new Button("Mis Productos--");
             

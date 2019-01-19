@@ -87,32 +87,32 @@ public class Inicio {
             inicio.setOnAction(e -> {
                 
                 
-                System.out.println("hola");
-                    try {
-                Conexion con=new Conexion();
-                        System.out.println("como");
-                con.connect();           
+                
+                try {
+                    Conexion con=new Conexion();
 
-                PreparedStatement stmt2;
-                        System.out.println("estas");
+                    con.connect();           
 
-                stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario=? and contrasenia=?");
-                stmt2.setString(1, usuario.getText());
-                stmt2.setString(2, clave.getText());
-                ResultSet rs2= stmt2.executeQuery();
-                if(!rs2.next()){
-                    PoliVentas.cambiarVentana(root, new Registro().getRoot());
-                }else{
-                    rs2.previous();
-                    while(rs2.next()){
-                    if(rs2.getString("tipo").equals("V")){
-                        PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
-                        
+                    PreparedStatement stmt2;
+
+
+                    stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario=? and contrasenia=?");
+                    stmt2.setString(1, usuario.getText());
+                    stmt2.setString(2, clave.getText());
+                    ResultSet rs2= stmt2.executeQuery();
+                    if(!rs2.next()){
+                        PoliVentas.cambiarVentana(root, new Registro().getRoot());
                     }else{
-                        PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
-                    }     
-                }  
-                    
+                        rs2.previous();
+                        while(rs2.next()){
+                        if(rs2.getString("tipo").equals("V")){
+                            PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+
+                        }else{
+                            PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+                        }     
+                    }  
+
                     
                 }
                 
@@ -133,7 +133,7 @@ public class Inicio {
            
            
            
-           DarEfectoBoton(salir);
+            DarEfectoBoton(salir);
             
             salir.setOnAction(e ->Platform.exit());
             

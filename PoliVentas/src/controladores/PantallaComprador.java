@@ -45,7 +45,7 @@ public class PantallaComprador {
             buscar = new Button("Buscar");
             arttop = new Button("Articulos Top");
             compend = new Button("Compras");
-            salir = new Button("Salir");
+            salir = new Button("Cerrar Sesión");
             
             busqueda = new TextField();
             
