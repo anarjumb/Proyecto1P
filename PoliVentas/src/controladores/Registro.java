@@ -7,13 +7,16 @@ package controladores;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -119,10 +122,9 @@ public class Registro {
             DarEfectoBoton(registrar);
            registrar.setOnAction(e -> {
            if(usuario.getText().isEmpty()){
-                Label error = new Label("Error, favor llenar todos los campos");
-                error.setFont(Font.font("Cambria", 32));
-                error.setTextFill(Color.web("#F33030"));
-                box.getChildren().add(error);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, llene todos los campos.", ButtonType.OK);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.show();
                 
                 
                 

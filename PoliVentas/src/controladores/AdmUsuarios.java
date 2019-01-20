@@ -14,7 +14,9 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -26,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -86,36 +89,7 @@ public class AdmUsuarios {
             "vendedor"
         );
         
-          rol.setCellFactory(
-            new Callback<ListView<String>, ListCell<String>>() {
-                @Override public ListCell<String> call(ListView<String> param) {
-                    final ListCell<String> cell = new ListCell<String>() {
-                        {
-                            super.setPrefWidth(100);
-                        }    
-                        @Override public void updateItem(String item, 
-                            boolean empty) {
-                                super.updateItem(item, empty);
-                                if (item != null) {
-                                    setText(item);    
-                                    if (item.contains("administrador")) {
-                                        setTextFill(Color.RED);
-                                    }
-                                    else if (item.contains("comprador")){
-                                        setTextFill(Color.GREEN);
-                                    }
-                                    else {
-                                        setTextFill(Color.BLUE);
-                                    }
-                                }
-                                else {
-                                    setText(null);
-                                }
-                            }
-                };
-                return cell;
-            }
-        });
+          
         
         
         usuario.setPromptText("Ingrese usuario");
@@ -141,18 +115,36 @@ public class AdmUsuarios {
         agregar.setSpacing(15);
         
         box.getChildren().add(agregar);
-        add1.setOnAction(e -> {if(usuario.getText().isEmpty() || clave.getText().isEmpty()||rol.getValue()==null){
+        add1.setOnAction(e -> {
+            if(usuario.getText().isEmpty() || clave.getText().isEmpty()||rol.getValue()==null){
            // System.out.println(rol.getValue());
-            agregar.getChildren().add(error);
             
-        }else{
-            box.getChildren().remove(agregar);
-            try {
-                Insertar();
-            } catch (SQLException ex) {
-                Logger.getLogger(AdmUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-            } }  
-        });
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, debes llenar todos los campos.", ButtonType.OK);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.show();
+            
+            }else{
+
+                
+                
+                if(ValidarDatos(usuario.getText())){
+                    
+                    try {
+                        Insertar();
+                        box.getChildren().remove(agregar);
+                    }catch (SQLException ex) {
+                       Logger.getLogger(AdmUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+                else{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el usuario ya esta registrado anteriormente.", ButtonType.OK);
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.show();
+                    
+                }
+            }  
+            });
         
         
         
@@ -185,6 +177,12 @@ public class AdmUsuarios {
         agregar.getChildren().addAll(temp,add1);
         agregar.setSpacing(15);
         agregar.setAlignment(Pos.CENTER);
+        
+        
+        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el usuario no esta registrado.", ButtonType.OK);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.show();
         
         box.getChildren().add(agregar);
         add1.setOnAction(e -> box.getChildren().remove(agregar));
@@ -469,6 +467,39 @@ public class AdmUsuarios {
     }
         
         
-        
+    public boolean ValidarDatos(String usuario){
+        try {
+                    Conexion con=new Conexion();
+
+                    con.connect();           
+
+                    PreparedStatement stmt2;
+
+
+                    stmt2 = con.getCn().prepareStatement("SELECT usuario FROM usuario where usuario=?");
+                    stmt2.setString(1, usuario);
+                    
+                    ResultSet rs2= stmt2.executeQuery();
+                    if(!rs2.next()){
+                        return true;
+                        
+                    }else{
+                        //rs2.previous();
+                        return false;
+                        
+                    }
+                        
+
+                    
+                
+                
+
+                // TODO code application logic here
+            } catch (SQLException ex) {
+                Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
     }
+    
 

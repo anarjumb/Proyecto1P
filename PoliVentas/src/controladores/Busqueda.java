@@ -5,13 +5,6 @@
  */
 package controladores;
 
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-//import static jdk.nashorn.internal.objects.NativeString.search;
-
 /**
  *
  * @author adan
