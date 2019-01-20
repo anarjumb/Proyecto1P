@@ -5,16 +5,26 @@
  */
 package controladores;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import modelo.Persona;
 
 /**
  *
@@ -24,9 +34,10 @@ public class AdmProducto {
     
     private BorderPane root;
     private TableView tabla;
-    private VBox box;
-    private Button add,delete,edit, atras;
+    private VBox box,agregar;
+    private Button add,delete,edit, atras,add1;
     private HBox botones;
+    private TextField nombre,categoria,precio;
     
     public AdmProducto(){
         OrganizarPanel();
@@ -34,7 +45,83 @@ public class AdmProducto {
     
     
     
-    public void PanelAdd(){
+     public void PanelAdd(){
+        
+        add1 = new Button("Agregar");
+        DarEfectoBoton(add1);
+        agregar.getChildren().clear();
+        box.getChildren().removeAll(agregar);
+        
+        
+        
+        
+        HBox n1 = new HBox();
+        HBox n2 = new HBox();
+        
+        nombre = new TextField();
+        categoria = new TextField();
+        precio = new TextField();
+        
+        
+        nombre.setPromptText("Ingrese nombre");
+        categoria.setPromptText("Ingrese categoria");
+        precio.setPromptText("Ingrese precio");
+        
+        
+        
+        
+        HBox temp = new HBox();
+        temp.getChildren().addAll(nombre,categoria,precio);
+        temp.setSpacing(15);
+        temp.setAlignment(Pos.CENTER);
+        
+        
+        agregar.getChildren().addAll(temp,add1);
+        agregar.setSpacing(15);
+        agregar.setAlignment(Pos.CENTER);
+        
+        box.getChildren().add(agregar);
+        add1.setOnAction(e -> box.getChildren().remove(agregar));
+        
+        
+        
+    }
+    
+    public void PanelEdit(){
+        
+        
+        
+        
+        add1 = new Button("Edit");
+        DarEfectoBoton(add1);
+        
+        nombre = new TextField();
+        categoria = new TextField();
+        precio = new TextField();
+        
+        
+        
+        nombre.setPromptText("Nombre");
+        categoria.setPromptText("Editar Categoria");
+        precio.setPromptText("Editar Precio");
+       
+        
+        
+        agregar.getChildren().clear();
+        box.getChildren().remove(agregar);
+       
+        HBox temp = new HBox();
+        temp.getChildren().addAll(nombre,categoria,precio);
+        temp.setSpacing(15);
+        temp.setAlignment(Pos.CENTER);
+        
+        
+        agregar.getChildren().addAll(temp,add1);
+        agregar.setSpacing(15);
+        agregar.setAlignment(Pos.CENTER);
+        
+        box.getChildren().add(agregar);
+        add1.setOnAction(e -> box.getChildren().remove(agregar));
         
     }
     public void OrganizarPanel(){
@@ -42,6 +129,7 @@ public class AdmProducto {
         root = new BorderPane();
         tabla = new TableView();
         box = new VBox();
+        agregar = new VBox();
         botones = new HBox();
         tabla.setEditable(true);
         
@@ -57,6 +145,9 @@ public class AdmProducto {
         
         
         atras.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
+        
+        add.setOnAction(e -> PanelAdd());
+        edit.setOnAction(e -> PanelEdit());
         
         TableColumn nombre = new TableColumn("Nombre");
         TableColumn categoria = new TableColumn("Categoria");
@@ -75,36 +166,68 @@ public class AdmProducto {
         
         tabla.getColumns().addAll(nombre,categoria,precio);
         
-        /*try {
+        try {
                     Conexion con=new Conexion();
 
                     con.connect();           
 
                     PreparedStatement stmt2;
-
-
-                    stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario== and contrasenia==");
+                    
+                    ArrayList<Producto> productos=new ArrayList();
+                    stmt2 = con.getCn().prepareStatement("SELECT nombre_producto,descripcion FROM producto");
                    // stmt2.setString(1, usuario.getText());
                     //stmt2.setString(2, clave.getText());
                     ResultSet rs2= stmt2.executeQuery();
-                    if(!rs2.next()){
-                        PoliVentas.cambiarVentana(root, new Registro().getRoot());
-                    }else{
-                        rs2.previous();
-                        while(rs2.next()){
-                            
-                            System.out.println(rs2);
-                            
-                    }  
-
                     
-                }
-                
+                  
+                    while(rs2.next()){
+                            productos.add(new Producto(rs2.getString("nombre_producto"), rs2.getString("descripcion")));
+                                  
+                    }
+                    
+                    
+                    
+                  
+                    
+                    
+                    
+                    final ObservableList<Producto> data = FXCollections.observableArrayList(productos); 
+                     
+                     
+                     
+                     
+                     
+                    tabla.setEditable(true);
+                    tabla.setVisible(true);
+
+
+                            //TableColumn nombre = new TableColumn("First Name");
+                    nombre.setMinWidth(100);
+                    nombre.setCellValueFactory(
+                            new PropertyValueFactory<Producto, String>("nombre"));
+
+                    //TableColumn apellido = new TableColumn("Last Name");
+                    categoria.setMinWidth(100);
+                    categoria.setCellValueFactory(
+                            new PropertyValueFactory<Producto, String>("categoria"));
+
+                    //TableColumn emailCol = new TableColumn("Email");
+                   /* precio.setMinWidth(200);
+                    precio.setCellValueFactory(
+                            new PropertyValueFactory<Producto, String>("precio"));
+*/
+                    
+
+
+
+
+                    tabla.setItems(data);
+
 
                 // TODO code application logic here
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
             
             botones.getChildren().addAll(atras,add,delete,edit);
             botones.setSpacing(35);

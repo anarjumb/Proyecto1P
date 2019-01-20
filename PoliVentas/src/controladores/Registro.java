@@ -29,7 +29,7 @@ public class Registro {
     private Button registrar, salir;
     private HBox datos;
     private TextField nombre,apellido,telefono,email,direccion,cedula,matricula,clave,usuario;
-    private Label lblrol;
+    
     private ComboBox rol;
 
 
@@ -51,11 +51,11 @@ public class Registro {
             
             
             
-            lblrol = new Label("Escoja rol:");
+            
 
 
             registrar = new Button("Registrar");
-            salir = new Button("Salir");
+            salir = new Button("Regresar");
             
             usuario = new TextField();
             clave = new TextField();
@@ -66,9 +66,10 @@ public class Registro {
             direccion = new TextField();
             cedula = new TextField();
             matricula = new TextField();
+            rol.setPromptText("Ingrese rol");
             
             
-            rol.getItems().addAll("Comprador","Vendedor");
+            rol.getItems().addAll("comprador","vendedor");
             /*
             lbluser = new Label("Ingrese usuario: ");
             lblpass = new Label("Ingrese clave: ");
@@ -117,18 +118,25 @@ public class Registro {
 
             DarEfectoBoton(registrar);
            registrar.setOnAction(e -> {
-           
-           
-           
-           
-           
-           PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
-           });
+           if(usuario.getText().isEmpty()){
+                Label error = new Label("Error, favor llenar todos los campos");
+                error.setFont(Font.font("Cambria", 32));
+                error.setTextFill(Color.web("#F33030"));
+                box.getChildren().add(error);
+                
+                
+                
+                //------------angel mira asi se obtiene el valor de un combo box System.out.println(rol.getValue()); si esta vacio bota null.--------
+                
+               
+           }else{
+               PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+           }});
            
            
            
             DarEfectoBoton(salir);
-            salir.setOnAction(e ->Platform.exit());
+            salir.setOnAction(e->PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
             
             
             

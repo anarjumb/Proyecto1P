@@ -15,6 +15,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -23,6 +27,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.util.Callback;
 import modelo.Persona;
 
 /**
@@ -37,7 +44,8 @@ public class AdmUsuarios {
     private VBox box,agregar;
     private Button add,delete,edit,atras,add1;
     private HBox botones;
-    private TextField usuario,clave,nombre,apellido,telefono,email,direccion,matricula,rol,cedula;
+    private TextField usuario,clave,nombre,apellido,telefono,email,direccion,matricula,cedula;
+    private ComboBox rol;
     
     public AdmUsuarios(){
         OrganizarPanel();
@@ -46,9 +54,15 @@ public class AdmUsuarios {
     
     
     public void PanelAdd(){
-        agregar = new VBox();
+        
         add1 = new Button("Agregar");
         DarEfectoBoton(add1);
+        agregar.getChildren().clear();
+        box.getChildren().removeAll(agregar);
+        Label error = new Label("Error, favor llenar todos los campos");
+        error.setFont(Font.font("Cambria", 32));
+        error.setTextFill(Color.web("#F33030"));
+        
         
         
         
@@ -64,9 +78,48 @@ public class AdmUsuarios {
         direccion = new TextField();
         cedula = new TextField();
         matricula = new TextField();
+        rol = new ComboBox();
+        
+        rol.getItems().addAll(
+            "administrador",
+            "comprador",
+            "vendedor"
+        );
+        
+          rol.setCellFactory(
+            new Callback<ListView<String>, ListCell<String>>() {
+                @Override public ListCell<String> call(ListView<String> param) {
+                    final ListCell<String> cell = new ListCell<String>() {
+                        {
+                            super.setPrefWidth(100);
+                        }    
+                        @Override public void updateItem(String item, 
+                            boolean empty) {
+                                super.updateItem(item, empty);
+                                if (item != null) {
+                                    setText(item);    
+                                    if (item.contains("administrador")) {
+                                        setTextFill(Color.RED);
+                                    }
+                                    else if (item.contains("comprador")){
+                                        setTextFill(Color.GREEN);
+                                    }
+                                    else {
+                                        setTextFill(Color.BLUE);
+                                    }
+                                }
+                                else {
+                                    setText(null);
+                                }
+                            }
+                };
+                return cell;
+            }
+        });
         
         
         usuario.setPromptText("Ingrese usuario");
+        rol.setPromptText("Ingrese rol");
         clave.setPromptText("Ingrese clave");
         nombre.setPromptText("Ingrese nombre");
         apellido.setPromptText("Ingrese apellido");
@@ -76,8 +129,8 @@ public class AdmUsuarios {
         cedula.setPromptText("Ingrese cedula");
         matricula.setPromptText("Ingrese matricula");
         
-        n1.getChildren().addAll(usuario,clave,nombre,apellido,telefono);
-        n2.getChildren().addAll(email,direccion,cedula,matricula,add1);
+        n1.getChildren().addAll(usuario,clave,rol,nombre,apellido);
+        n2.getChildren().addAll(telefono,email,direccion,cedula,matricula,add1);
         n1.setAlignment(Pos.CENTER);
         n2.setAlignment(Pos.CENTER);
         n1.setSpacing(15);
@@ -88,12 +141,58 @@ public class AdmUsuarios {
         agregar.setSpacing(15);
         
         box.getChildren().add(agregar);
-        add1.setOnAction(e -> box.getChildren().remove(agregar));
+        add1.setOnAction(e -> {if(usuario.getText().isEmpty() || clave.getText().isEmpty()||rol.getValue()==null){
+           // System.out.println(rol.getValue());
+            agregar.getChildren().add(error);
+            
+        }else{
+            box.getChildren().remove(agregar);
+            try {
+                Insertar();
+            } catch (SQLException ex) {
+                Logger.getLogger(AdmUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            } }  
+        });
         
         
         
     }
     
+    
+    
+    public void PanelDelete(){
+        
+        add1 = new Button("Eliminar");
+        DarEfectoBoton(add1);
+        
+        usuario = new TextField();
+       
+        
+        
+        usuario.setPromptText("Ingrese Usuario");
+       
+        
+        
+        agregar.getChildren().clear();
+        box.getChildren().remove(agregar);
+       
+        HBox temp = new HBox();
+        temp.getChildren().addAll(usuario);
+        temp.setSpacing(15);
+        temp.setAlignment(Pos.CENTER);
+        
+        
+        agregar.getChildren().addAll(temp,add1);
+        agregar.setSpacing(15);
+        agregar.setAlignment(Pos.CENTER);
+        
+        box.getChildren().add(agregar);
+        add1.setOnAction(e -> box.getChildren().remove(agregar));
+        
+        
+        
+        
+    }
     public void PanelEdit(){
         
         
@@ -121,8 +220,20 @@ public class AdmUsuarios {
         email.setPromptText("Editar Email");
         direccion.setPromptText("Editar Direccion");
         cedula.setPromptText("Editar Cedula");
+        
+        
+        agregar.getChildren().clear();
+        box.getChildren().remove(agregar);
        
-        agregar.getChildren().addAll(usuario,clave,nombre,apellido,telefono,email,direccion,cedula,add1);
+        HBox temp = new HBox();
+        temp.getChildren().addAll(usuario,clave,nombre,apellido,telefono,email,direccion,cedula);
+        temp.setSpacing(15);
+        temp.setAlignment(Pos.CENTER);
+        
+        
+        agregar.getChildren().addAll(temp,add1);
+        agregar.setSpacing(15);
+        agregar.setAlignment(Pos.CENTER);
         
         box.getChildren().add(agregar);
         add1.setOnAction(e -> box.getChildren().remove(agregar));
@@ -136,6 +247,7 @@ public class AdmUsuarios {
         tabla = new TableView();
         box = new VBox();
         botones = new HBox();
+        agregar = new VBox();
      //   agregar = new HBox();
         tabla.setEditable(true);
         
@@ -157,120 +269,12 @@ public class AdmUsuarios {
         atras.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
         add.setOnAction(e -> PanelAdd());
         edit.setOnAction(e -> PanelEdit());
+        delete.setOnAction(e -> PanelDelete());
         
         
-        TableColumn cedula = new TableColumn("Cedula");
-        TableColumn nombre = new TableColumn("Nombre");
-        TableColumn apellido = new TableColumn("Apellido");
-        TableColumn correo = new TableColumn("Correo");
-        TableColumn telefono = new TableColumn("Telefono");
-        TableColumn usuario = new TableColumn("Usuario");
-        TableColumn contrasenia = new TableColumn("Clave");
-        TableColumn rol = new TableColumn("Rol");
+        CargarDatos();
         
-        
-        tabla.getColumns().addAll(cedula,usuario,contrasenia,nombre,apellido,telefono,correo,rol);
-        
-                try {
-                    Conexion con=new Conexion();
-
-                    con.connect();           
-
-                    PreparedStatement stmt2;
-                    
-                    ArrayList<Persona> personas=new ArrayList();
-                    stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, comprador c where u.usuario=c.usuario");
-                   // stmt2.setString(1, usuario.getText());
-                    //stmt2.setString(2, clave.getText());
-                    ResultSet rs2= stmt2.executeQuery();
-                    
-                  
-                    while(rs2.next()){
-                            personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("tipo")));
-                                  
-                    }
-                    
-                    stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, vendedor c where u.usuario=c.usuario");
-                   // stmt2.setString(1, usuario.getText());
-                    //stmt2.setString(2, clave.getText());
-                    rs2= stmt2.executeQuery();
-                    
-                  
-                    while(rs2.next()){
-                            personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("tipo")));
-                                  
-                    }
-                    
-                    stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, administrador c where u.usuario=c.usuario");
-                   // stmt2.setString(1, usuario.getText());
-                    //stmt2.setString(2, clave.getText());
-                    rs2= stmt2.executeQuery();
-                    
-                  
-                    while(rs2.next()){
-                            personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("tipo")));
-                                  
-                    }
-                    
-                    
-                    
-                     final ObservableList<Persona> data = FXCollections.observableArrayList(personas); 
-                     System.out.println("olaa");
-                     
-                     System.out.println("HOAA");
-                     System.out.println(data.size());
-                     
-                     
-                      tabla.setEditable(true);
-        tabla.setVisible(true);
-        
-        
-                //TableColumn nombre = new TableColumn("First Name");
-        nombre.setMinWidth(100);
-        nombre.setCellValueFactory(
-                new PropertyValueFactory<Persona, String>("nombres"));
- 
-        //TableColumn apellido = new TableColumn("Last Name");
-        apellido.setMinWidth(100);
-        apellido.setCellValueFactory(
-                new PropertyValueFactory<Persona, String>("apellidos"));
- 
-        //TableColumn emailCol = new TableColumn("Email");
-        correo.setMinWidth(200);
-        correo.setCellValueFactory(
-                new PropertyValueFactory<Persona, String>("correo"));
-        
-        cedula.setMinWidth(200);
-        cedula.setCellValueFactory(
-                new PropertyValueFactory<Persona, String>("cedula"));
-        
-        usuario.setMinWidth(200);
-        usuario.setCellValueFactory(
-                new PropertyValueFactory<Persona, String>("usuario"));
-        
-        
-        telefono.setMinWidth(200);
-        telefono.setCellValueFactory(
-                new PropertyValueFactory<Persona, String>("telefono"));
-        
-        contrasenia.setMinWidth(200);
-        contrasenia.setCellValueFactory(
-                new PropertyValueFactory<Persona, String>("contrasenia"));
-        
-        rol.setMinWidth(200);
-        rol.setCellValueFactory(
-                new PropertyValueFactory<Persona, String>("rol"));
-        
-        
-        
-        
-        tabla.setItems(data);
                 
-
-                // TODO code application logic here
-            } catch (SQLException ex) {
-                Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
-            }
         
                 
                 
@@ -331,7 +335,138 @@ public class AdmUsuarios {
         
         
         
+    public void Insertar() throws SQLException{
         
+        Conexion con=new Conexion();
+
+        con.connect();           
+
+        PreparedStatement stmt2;
+
+        ArrayList<Persona> personas=new ArrayList();
+        System.out.println("a");
+        stmt2 = con.getCn().prepareStatement("INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`) VALUES ('am', 'am', 'am'");
+        System.out.println("n");
+       // stmt2 = con.getCn().prepareStatement("INSERT INT * FROM usuario u, comprador c where u.usuario=c.usuario");
+
+        ResultSet rs2= stmt2.executeQuery();
+        
+        System.out.println("m");
+        
+    }
+    
+    
+    public void CargarDatos(){
+        
+        try {
+            
+            
+            
+            TableColumn cedula = new TableColumn("Cedula");
+            TableColumn nombre = new TableColumn("Nombre");
+            TableColumn apellido = new TableColumn("Apellido");
+            TableColumn correo = new TableColumn("Correo");
+            TableColumn telefono = new TableColumn("Telefono");
+            TableColumn usuario = new TableColumn("Usuario");
+            TableColumn contrasenia = new TableColumn("Clave");
+            TableColumn rol = new TableColumn("Rol");
+
+
+            tabla.getColumns().addAll(cedula,usuario,contrasenia,nombre,apellido,telefono,correo,rol);
+            Conexion con=new Conexion();
+
+            con.connect();           
+
+            PreparedStatement stmt2;
+
+            ArrayList<Persona> personas=new ArrayList();
+            stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, comprador c where u.usuario=c.usuario");
+           // stmt2.setString(1, usuario.getText());
+            //stmt2.setString(2, clave.getText());
+            ResultSet rs2= stmt2.executeQuery();
+
+
+            while(rs2.next()){
+                    personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("u.tipo")));
+
+            }
+
+            stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, vendedor c where u.usuario=c.usuario");
+            rs2= stmt2.executeQuery();
+
+
+            while(rs2.next()){
+                    personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("u.tipo")));
+
+            }
+
+            stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, administrador c where u.usuario=c.usuario");
+            rs2= stmt2.executeQuery();
+
+
+            while(rs2.next()){
+                    personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("tipo")));
+
+            }
+
+
+
+            final ObservableList<Persona> data = FXCollections.observableArrayList(personas); 
+
+
+
+            tabla.setEditable(true);
+            tabla.setVisible(true);
+
+
+
+            nombre.setMinWidth(100);
+            nombre.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombres"));
+
+
+            apellido.setMinWidth(100);
+            apellido.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellidos"));
+
+
+
+            correo.setMinWidth(200);
+            correo.setCellValueFactory(new PropertyValueFactory<Persona, String>("correo"));
+
+
+            cedula.setMinWidth(200);
+            cedula.setCellValueFactory(new PropertyValueFactory<Persona, String>("cedula"));
+
+
+            usuario.setMinWidth(200);
+            usuario.setCellValueFactory(
+                    new PropertyValueFactory<Persona, String>("usuario"));
+
+
+            telefono.setMinWidth(200);
+            telefono.setCellValueFactory(
+                    new PropertyValueFactory<Persona, String>("telefono"));
+
+            contrasenia.setMinWidth(200);
+            contrasenia.setCellValueFactory(
+                    new PropertyValueFactory<Persona, String>("contrasenia"));
+
+            rol.setMinWidth(200);
+            rol.setCellValueFactory(
+                    new PropertyValueFactory<Persona, String>("rol"));
+
+
+
+
+            tabla.setItems(data);
+
+
+            // TODO code application logic here
+        } catch (SQLException ex) {
+            Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+    }
         
         
         
