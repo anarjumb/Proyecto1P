@@ -34,7 +34,7 @@ public class PoliVentas extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene scene = new Scene(new Inicio().getRoot(), Constantes.ANCHO, Constantes.ALTO);
+        Scene scene = new Scene(new PantallaBusqueda().getRoot(), Constantes.ANCHO, Constantes.ALTO);
         
         
         //scene.onKeyPressedProperty().bind(new PaneOrganizer(ruta).getRoot().onKeyPressedProperty());
