@@ -87,7 +87,7 @@ public class PantallaVendedor {
             
            
             DarEfectoBoton(buscar);
-            buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
+            buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaBusqueda().getRoot()));
 
    
         

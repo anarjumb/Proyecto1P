@@ -14,13 +14,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -101,10 +104,14 @@ public class Inicio {
                     stmt2.setString(2, clave.getText());
                     ResultSet rs2= stmt2.executeQuery();
                     if(!rs2.next()){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "No existe ese usuario, registrese.", ButtonType.OK);
+                        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                        alert.show();
                         PoliVentas.cambiarVentana(root, new Registro().getRoot());
                     }else{
                         rs2.previous();
                         while(rs2.next()){
+                        PoliVentas.setRol(rs2.getString("tipo"));
                         if(rs2.getString("tipo").equals("vendedor")){
                             PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
 

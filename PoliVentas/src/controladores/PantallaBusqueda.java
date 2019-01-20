@@ -90,7 +90,15 @@ public class PantallaBusqueda {
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
 
         
-        btn_salir.setOnAction(e ->PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot()));
+        btn_salir.setOnAction(e ->{
+            if(PoliVentas.getRol().equals("vendedor")){
+                PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+            }
+            else{
+                PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+            }
+            
+                });
        // root.setTop(panelSuperior);
         root.setCenter(box);
        
