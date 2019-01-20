@@ -12,9 +12,13 @@ import java.util.Date;
  * @author adan
  */
 public class Adminstrador extends Persona{
-    
-    public Adminstrador(String cedula, String nombres, String apellidos, String telefono, String correo, String usuario, String contrasenia, Date fechaNacimiento) {
-        super(cedula, nombres, apellidos, telefono, correo, usuario, contrasenia, fechaNacimiento);
+
+    public Adminstrador(String cedula, String nombres, String apellidos, String telefono, String correo, String usuario, String contrasenia, String rol) {
+        super(cedula, nombres, apellidos, telefono, correo, usuario, contrasenia, rol);
     }
+
+    
+    
+    
     
 }

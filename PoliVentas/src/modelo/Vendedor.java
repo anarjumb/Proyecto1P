@@ -14,10 +14,14 @@ import java.util.Date;
  */
 public class Vendedor extends Comprador{
     private ArrayList<Integer> listaDeCalificaciones;
-    
-    public Vendedor(String cedula, String nombres, String apellidos, String telefono, String correo, String usuario, String contrasenia, Date fechaNacimiento) {
-        super(cedula, nombres, apellidos, telefono, correo, usuario, contrasenia, fechaNacimiento);
+
+    public Vendedor(String cedula, String nombres, String apellidos, String telefono, String correo, String usuario, String contrasenia, String rol) {
+        super(cedula, nombres, apellidos, telefono, correo, usuario, contrasenia, rol);
     }
+
+    
+    
+    
     
     
     public void setListaDeCalificaciones(ArrayList<Integer> listaDeCalificaciones) {

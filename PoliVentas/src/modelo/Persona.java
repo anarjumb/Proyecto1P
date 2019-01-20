@@ -21,9 +21,13 @@ public class Persona
     private String correo;
     private String usuario;
     private String contrasenia;
-    private Date fechaNacimiento;
+    private String rol;
 
-    public Persona(String cedula, String nombres, String apellidos, String telefono, String correo, String usuario, String contrasenia, Date fechaNacimiento) {
+    public Persona() {
+    }
+   
+
+    public Persona(String cedula, String nombres, String apellidos, String telefono, String correo, String usuario, String contrasenia, String rol) {
         this.cedula = cedula;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -31,8 +35,10 @@ public class Persona
         this.correo = correo;
         this.usuario = usuario;
         this.contrasenia = contrasenia;
-        this.fechaNacimiento = fechaNacimiento;
+        this.rol = rol;
     }
+
+    
 
     public String getCedula() {
         return cedula;
@@ -90,13 +96,7 @@ public class Persona
         this.contrasenia = contrasenia;
     }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
     
     
     
