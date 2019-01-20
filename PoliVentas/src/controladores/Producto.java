@@ -9,9 +9,15 @@ package controladores;
  *
  * @author adan
  */
-public class Persona
-{
-    
-    
+public class Producto {
     private String nombre;
+    private String categoria;
+   // private String precio;
+
+    public Producto(String nombre, String categoria) {
+        this.nombre = nombre;
+        this.categoria = categoria;
+        
+    }
+    
 }

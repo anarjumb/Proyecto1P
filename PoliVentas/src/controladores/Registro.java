@@ -7,13 +7,16 @@ package controladores;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -29,7 +32,7 @@ public class Registro {
     private Button registrar, salir;
     private HBox datos;
     private TextField nombre,apellido,telefono,email,direccion,cedula,matricula,clave,usuario;
-    private Label lblrol;
+    
     private ComboBox rol;
 
 
@@ -51,11 +54,11 @@ public class Registro {
             
             
             
-            lblrol = new Label("Escoja rol:");
+            
 
 
             registrar = new Button("Registrar");
-            salir = new Button("Salir");
+            salir = new Button("Regresar");
             
             usuario = new TextField();
             clave = new TextField();
@@ -66,9 +69,10 @@ public class Registro {
             direccion = new TextField();
             cedula = new TextField();
             matricula = new TextField();
+            rol.setPromptText("Ingrese rol");
             
             
-            rol.getItems().addAll("Comprador","Vendedor");
+            rol.getItems().addAll("comprador","vendedor");
             /*
             lbluser = new Label("Ingrese usuario: ");
             lblpass = new Label("Ingrese clave: ");
@@ -116,12 +120,25 @@ public class Registro {
             inicio.setGraphic(image);*/
 
             DarEfectoBoton(registrar);
-           registrar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
+           registrar.setOnAction(e -> {
+           if(usuario.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, llene todos los campos.", ButtonType.OK);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.show();
+                
+                
+                
+                //------------angel mira asi se obtiene el valor de un combo box System.out.println(rol.getValue()); si esta vacio bota null.--------
+                
+               
+           }else{
+               PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+           }});
            
            
            
             DarEfectoBoton(salir);
-            salir.setOnAction(e ->Platform.exit());
+            salir.setOnAction(e->PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
             
             
             

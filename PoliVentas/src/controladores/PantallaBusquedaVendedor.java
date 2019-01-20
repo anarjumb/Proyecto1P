@@ -8,34 +8,34 @@ package controladores;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
 /**
  *
- * @author RBLOO
+ * @author adan
  */
-public class PantallaBusqueda {
+public class PantallaBusquedaVendedor {
     
-    private BorderPane root;
+     private BorderPane root;
     private StackPane panelCentral;
     private Button btn_buscar;
     private Button btn_salir;
@@ -46,7 +46,7 @@ public class PantallaBusqueda {
     private VBox box;
     
     
-    public PantallaBusqueda(){
+    public PantallaBusquedaVendedor(){
         iniciarComponentes();
     }
     
@@ -90,7 +90,7 @@ public class PantallaBusqueda {
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
 
         
-        btn_salir.setOnAction(e ->PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot()));
+        btn_salir.setOnAction(e ->PoliVentas.cambiarVentana(root, new PantallaBusquedaVendedor().getRoot()));
        // root.setTop(panelSuperior);
         root.setCenter(box);
        
@@ -133,7 +133,7 @@ public class PantallaBusqueda {
                            
                        }else{
                              
-                           Alert alert = new Alert(AlertType.INFORMATION, "No se hallaron resultados.", ButtonType.OK);
+                           Alert alert = new Alert(Alert.AlertType.INFORMATION, "No se hallaron resultados.", ButtonType.OK);
                            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                            alert.show();
 
@@ -148,7 +148,7 @@ public class PantallaBusqueda {
                 
         else{
                     
-            Alert alert = new Alert(AlertType.INFORMATION, "Advertencia, debes ingresar al menos tres caracteres diferentes de espacio.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, debes ingresar al menos tres caracteres diferentes de espacio.", ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.show();
                          
@@ -179,7 +179,7 @@ public class PantallaBusqueda {
     
     private boolean tiene3caracteres(String cadena){
         if(cadena.length() < 3){
-            Alert alert = new Alert(AlertType.INFORMATION, "Advertencia, debes ingresar al menos tres caracteres diferentes de espacio.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, debes ingresar al menos tres caracteres diferentes de espacio.", ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.show();
             return false;
