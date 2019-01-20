@@ -25,8 +25,8 @@ public class PantallaComprador {
     private BorderPane root;
     private Button buscar, compend,arttop,salir;
     private HBox BoxBusqueda, BoxButton;
-    private TextField busqueda;
-    private Label lblbuscar;
+  //  private TextField busqueda;
+   // private Label lblbuscar;
     private VBox box;
 
     PantallaComprador(){        
@@ -47,12 +47,12 @@ public class PantallaComprador {
             compend = new Button("Compras");
             salir = new Button("Cerrar Sesión");
             
-            busqueda = new TextField();
+     //       busqueda = new TextField();
             
             
-            lblbuscar = new Label("Ingrese búsqueda: ");
+           /* lblbuscar = new Label("Ingrese búsqueda: ");
             lblbuscar.setFont(Font.font("Cambria", 27));
-            lblbuscar.setTextFill(Color.web("#59FF33"));
+            lblbuscar.setTextFill(Color.web("#59FF33"));*/
             
             
 
@@ -71,7 +71,7 @@ public class PantallaComprador {
             
             
             DarEfectoBoton(buscar);           
-             buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot()));
+             buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaBusqueda().getRoot()));
 
         //    inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
         
@@ -81,10 +81,10 @@ public class PantallaComprador {
             salir.setOnAction(e -> PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
             
             
-            BoxBusqueda.getChildren().addAll(lblbuscar,busqueda,buscar);
-            BoxBusqueda.setSpacing(50);
+          /*  BoxBusqueda.getChildren().addAll(lblbuscar,busqueda,buscar);
+            BoxBusqueda.setSpacing(50);*/
             
-            BoxButton.getChildren().addAll(compend,arttop);
+            BoxButton.getChildren().addAll(buscar,compend,arttop);
             BoxButton.setSpacing(50);
             
             BoxBusqueda.setAlignment(Pos.CENTER);
@@ -92,7 +92,7 @@ public class PantallaComprador {
 
 
 
-            box.getChildren().addAll(BoxBusqueda,BoxButton,salir);
+            box.getChildren().addAll(BoxButton,salir);
 
 
 

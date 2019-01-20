@@ -62,9 +62,7 @@ public class AdmUsuarios {
         DarEfectoBoton(add1);
         agregar.getChildren().clear();
         box.getChildren().removeAll(agregar);
-        Label error = new Label("Error, favor llenar todos los campos");
-        error.setFont(Font.font("Cambria", 32));
-        error.setTextFill(Color.web("#F33030"));
+       
         
         
         
@@ -177,15 +175,29 @@ public class AdmUsuarios {
         agregar.getChildren().addAll(temp,add1);
         agregar.setSpacing(15);
         agregar.setAlignment(Pos.CENTER);
-        
-        
-        
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el usuario no esta registrado.", ButtonType.OK);
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.show();
-        
         box.getChildren().add(agregar);
-        add1.setOnAction(e -> box.getChildren().remove(agregar));
+        add1.setOnAction(e ->{
+            if(usuario.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el campo esta vacío.", ButtonType.OK);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.show();
+
+            }else{
+                if(ValidarDatos(usuario.getText())){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el usuario no esta registrado.", ButtonType.OK);
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.show();
+                    
+
+                }else{
+                    System.out.println("aqui estamos");
+                    box.getChildren().remove(agregar);
+                    
+                }
+
+                //add1.setOnAction(e -> box.getChildren().remove(agregar));
+            }
+        });
         
         
         
@@ -248,12 +260,7 @@ public class AdmUsuarios {
         agregar = new VBox();
      //   agregar = new HBox();
         tabla.setEditable(true);
-        
-        
-        
-            
-        
-        
+
         add = new Button("Agregar Usuario");
         delete = new Button("Eliminar Usuario");
         edit = new Button("Editar Usuario");
@@ -342,9 +349,9 @@ public class AdmUsuarios {
         PreparedStatement stmt2;
 
         ArrayList<Persona> personas=new ArrayList();
-        System.out.println("a");
+  
         stmt2 = con.getCn().prepareStatement("INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`) VALUES ('am', 'am', 'am'");
-        System.out.println("n");
+       
        // stmt2 = con.getCn().prepareStatement("INSERT INT * FROM usuario u, comprador c where u.usuario=c.usuario");
 
         ResultSet rs2= stmt2.executeQuery();
@@ -357,9 +364,7 @@ public class AdmUsuarios {
     public void CargarDatos(){
         
         try {
-            
-            
-            
+
             TableColumn cedula = new TableColumn("Cedula");
             TableColumn nombre = new TableColumn("Nombre");
             TableColumn apellido = new TableColumn("Apellido");
@@ -415,6 +420,7 @@ public class AdmUsuarios {
 
             tabla.setEditable(true);
             tabla.setVisible(true);
+            
 
 
 
@@ -490,9 +496,6 @@ public class AdmUsuarios {
                     }
                         
 
-                    
-                
-                
 
                 // TODO code application logic here
             } catch (SQLException ex) {

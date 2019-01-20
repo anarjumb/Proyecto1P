@@ -23,8 +23,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 /**
@@ -41,6 +43,7 @@ public class PantallaBusqueda {
     private TextField tf_buscar;
     private HBox panelSuperior;
     private TextArea ta_resultados;
+    private VBox box;
     
     
     public PantallaBusqueda(){
@@ -49,13 +52,17 @@ public class PantallaBusqueda {
     
     public void iniciarComponentes(){
         root = new BorderPane();
+        box = new VBox();
         btn_buscar = new Button("Buscar");
-        btn_salir = new Button("Salir");
-        lbl_elemento = new Label("Ingrese producto a buscar");
+        btn_salir = new Button("Atrás");
+        lbl_elemento = new Label("Ingrese producto a buscar: ");
         tf_buscar = new TextField();
         panelSuperior = new HBox();
         ta_resultados = new TextArea();
         panelCentral = new StackPane();
+        
+        DarEfectoBoton(btn_salir);
+        DarEfectoBoton(btn_buscar);
         
         Image image = new Image(getClass().getResourceAsStream("/imagenes/azul.jpg"));
         ImageView iv = new ImageView(image);
@@ -67,20 +74,26 @@ public class PantallaBusqueda {
         
         
         panelCentral.getChildren().addAll(iv,ta_resultados);
+        panelCentral.setAlignment(Pos.CENTER);
         
-        panelSuperior.getChildren().addAll(lbl_elemento,tf_buscar, btn_buscar);
+        panelSuperior.getChildren().addAll(lbl_elemento,tf_buscar, btn_buscar,btn_salir);
         panelSuperior.setSpacing(50);
+        panelSuperior.setAlignment(Pos.CENTER);
         
-        root.setStyle("-fx-background-image: url('/imagenes/busqueda.jpg'); "
+        box.getChildren().addAll(panelSuperior,panelCentral);
+        box.setAlignment(Pos.CENTER);
+        box.setSpacing(35);
+        
+        root.setStyle("-fx-background-image: url('/imagenes/buscar.jpg'); "
                     + "-fx-background-position: center center; "
                     + "-fx-background-repeat: stretch;"
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
 
-        panelSuperior.setAlignment(Pos.CENTER);
-        btn_salir.setOnAction(e ->PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
-        root.setTop(panelSuperior);
-        root.setCenter(panelCentral);
-        root.setBottom(btn_salir);
+        
+        btn_salir.setOnAction(e ->PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot()));
+       // root.setTop(panelSuperior);
+        root.setCenter(box);
+       
         
         lbl_elemento.setTextFill(Color.web("#59FF33"));
         lbl_elemento.setFont(Font.font("Cambria", 27));
@@ -88,44 +101,60 @@ public class PantallaBusqueda {
         
         btn_buscar.setOnAction(e ->{ 
             
+                if(tf_buscar.getText().length()>=3){
         
-                 try {
-                    Conexion con=new Conexion();
-                    con.connect();           
-                    PreparedStatement stmt2;
+                    try {
+                       Conexion con=new Conexion();
+                       con.connect();           
+                       PreparedStatement stmt2;
 
 
-                    stmt2 = con.getCn().prepareStatement("SELECT * FROM producto where nombre_producto LIKE '%?%' and descripcion= '%?%' ORDER BY calificacion_total");
+                       stmt2 = con.getCn().prepareStatement("SELECT * FROM producto where nombre_producto LIKE '%?%' and descripcion= '%?%' ORDER BY calificacion_total");
+
+                        stmt2.setString(1, verificarTexto(tf_buscar.getText()).get(0));
+                        stmt2.setString(2, verificarTexto(tf_buscar.getText()).get(0));
+                       //stmt2.setString(1, tf_buscar.getText());
+                       //stmt2.setString(2, tf_buscar.getText());
                     
-                    stmt2.setString(1, verificarTexto(tf_buscar.getText()).get(0));
-                    stmt2.setString(2, verificarTexto(tf_buscar.getText()).get(0));
-                    ResultSet rs2= stmt2.executeQuery();
-                    if(!rs2.next()){
-                        Alert alert = new Alert(AlertType.INFORMATION, "No se hallaron resultados.", ButtonType.OK);
-                        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                        alert.show();
-                    }else{
-                        rs2.previous();
-                        
-                        while(rs2.next()){
-                        if(rs2.getString("tipo").equals("V")){
-                            PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+                        ResultSet rs2= stmt2.executeQuery();
+                      // ResultSet rs2= stmt2.executeQuery();
+                       if(!rs2.next()){
+                           
+                            rs2.previous();
 
-                        }else{
-                            PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
-                        }     
-                    }  
+                            while(rs2.next()){
+                                if(rs2.getString("tipo").equals("V")){
+                                    PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
 
-                    
-                }
+                                }else{
+                                    PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+                                }     
+                            } 
+                           
+                       }else{
+                             
+                           Alert alert = new Alert(AlertType.INFORMATION, "No se hallaron resultados.", ButtonType.OK);
+                           alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                           alert.show();
+
+
+                   }                       // TODO code application logic here
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                 
+        }
                 
-
-                // TODO code application logic here
-            } catch (SQLException ex) {
-                Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+        else{
+                    
+            Alert alert = new Alert(AlertType.INFORMATION, "Advertencia, debes ingresar al menos tres caracteres diferentes de espacio.", ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.show();
+                         
             }
+    });
         
-        });
     }
     
     private ArrayList<String> verificarTexto(String cadena){
@@ -162,4 +191,20 @@ public class PantallaBusqueda {
     public BorderPane getRoot(){
         return root;
     }
+    
+    
+    public void DarEfectoBoton(Button boton){
+            boton.setStyle("-fx-font: 18 arial; -fx-base: #84307A;");
+        
+
+            boton.setOnMouseEntered((MouseEvent e) -> {
+                boton.setScaleX(1.1);
+                boton.setScaleY(1.1);
+            });
+
+            boton.setOnMouseExited((MouseEvent e) -> {
+                boton.setScaleX(1);
+                boton.setScaleY(1);
+            });
+        }
 }
