@@ -9,6 +9,6 @@ package controladores;
  *
  * @author adan
  */
-public class Usuario {
+public class Adminstrador extends Persona{
     
 }

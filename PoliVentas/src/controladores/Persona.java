@@ -9,6 +9,9 @@ package controladores;
  *
  * @author adan
  */
-public class Vendedor extends Comprador{
+public class Persona
+{
     
+    
+    private String nombre;
 }
