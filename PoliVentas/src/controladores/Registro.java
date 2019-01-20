@@ -116,7 +116,14 @@ public class Registro {
             inicio.setGraphic(image);*/
 
             DarEfectoBoton(registrar);
-           registrar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
+           registrar.setOnAction(e -> {
+           
+           
+           
+           
+           
+           PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+           });
            
            
            
