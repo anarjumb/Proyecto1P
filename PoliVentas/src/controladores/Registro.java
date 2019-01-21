@@ -128,58 +128,69 @@ public class Registro {
            registrar.setOnAction(e -> {
                
                //nombre,apellido,telefono,email,direccion,cedula,matricula,clave,usuario;
-           if(usuario.getText().isEmpty()||nombre.getText().isEmpty()||telefono.getText().isEmpty()||email.getText().isEmpty()
-                   ||direccion.getText().isEmpty()||cedula.getText().isEmpty()||matricula.getText().isEmpty()||
-                   clave.getText().isEmpty()||(rol.getValue()==null)){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, llene todos los campos.", ButtonType.OK);
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.show();          
-                //------------angel mira asi se obtiene el valor de un combo box System.out.println(rol.getValue()); si esta vacio bota null.--------
-                
-           }else{
-               try {                   
-                   
-                   
-                   Conexion con=new Conexion();          
-                  
-                   con.connect();
-                                  
-                   PreparedStatement stmt;
-                   String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
-                           + "VALUES (\""+usuario.getText()+"\",\""+clave.getText()+"\",\""+rol.getValue().toString()+"\")";
-                   
-                   System.out.println(query);
-                   
-                   
-                   stmt = con.getCn().prepareStatement(query);
-                   
-                   
-                   int rs= stmt.executeUpdate();
-                   
-                   query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
-                           + "VALUES (\""+cedula.getText()+"\",\""+nombre.getText()+"\",\""+apellido.getText()+"\",\""+email.getText()+"\",\""+telefono.getText()+"\",\""+usuario.getText()+"\")";
-                   
-                   stmt = con.getCn().prepareStatement(query);
-                   
-                   System.out.println("am");
-                   int rs2= stmt.executeUpdate();
-                   
-                   if(rol.getValue()=="vendedor"){
-                       PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
-                       
-                   }
-                   else if(rol.getValue()=="comprador"){
-                       PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
-                       
-                   }
-                   
-                   
-                   
-               } catch (SQLException ex) {
-                   Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-               }
-           }});
-           
+            if(usuario.getText().isEmpty()||nombre.getText().isEmpty()||telefono.getText().isEmpty()||email.getText().isEmpty()
+                    ||direccion.getText().isEmpty()||cedula.getText().isEmpty()||matricula.getText().isEmpty()||
+                    clave.getText().isEmpty()||(rol.getValue()==null)){
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, llene todos los campos.", ButtonType.OK);
+                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                 alert.show();          
+                 //------------angel mira asi se obtiene el valor de un combo box System.out.println(rol.getValue()); si esta vacio bota null.--------
+
+            }else{
+
+                if(ValidarDatos(usuario.getText())){
+                 try {                   
+
+
+                     Conexion con=new Conexion();          
+
+                     con.connect();
+
+                     PreparedStatement stmt;
+                     String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
+                             + "VALUES (\""+usuario.getText()+"\",\""+clave.getText()+"\",\""+rol.getValue().toString()+"\")";
+
+
+
+
+                     stmt = con.getCn().prepareStatement(query);
+
+
+                     int rs= stmt.executeUpdate();
+
+                     query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
+                             + "VALUES (\""+cedula.getText()+"\",\""+nombre.getText()+"\",\""+apellido.getText()+"\",\""+email.getText()+"\",\""+telefono.getText()+"\",\""+usuario.getText()+"\")";
+
+                     stmt = con.getCn().prepareStatement(query);
+
+
+                     int rs2= stmt.executeUpdate();
+
+                     if(rol.getValue()=="vendedor"){
+                         PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+
+                     }
+                     else if(rol.getValue()=="comprador"){
+                         PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+
+                     }
+
+
+
+                 } catch (SQLException ex) {
+                     Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }
+             else{
+
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el usuario ya esta registrado anteriormente.", ButtonType.OK);
+                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                 alert.show();
+
+             }
+                         }
+            });
+
            
            
             DarEfectoBoton(salir);
@@ -220,4 +231,35 @@ public class Registro {
             });
         }
     
+        
+        public boolean ValidarDatos(String usuario){
+        try {
+                    Conexion con=new Conexion();
+
+                    con.connect();           
+
+                    PreparedStatement stmt2;
+
+
+                    stmt2 = con.getCn().prepareStatement("SELECT usuario FROM usuario where usuario=?");
+                    stmt2.setString(1, usuario);
+                    
+                    ResultSet rs2= stmt2.executeQuery();
+                    if(!rs2.next()){
+                        return true;
+                        
+                    }else{
+                        //rs2.previous();
+                        return false;
+                        
+                    }
+                        
+
+
+                // TODO code application logic here
+            } catch (SQLException ex) {
+                Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
 }

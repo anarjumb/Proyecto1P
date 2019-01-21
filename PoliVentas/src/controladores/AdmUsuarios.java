@@ -114,35 +114,68 @@ public class AdmUsuarios {
         
         box.getChildren().add(agregar);
         add1.setOnAction(e -> {
-            if(usuario.getText().isEmpty() || clave.getText().isEmpty()||rol.getValue()==null){
-           // System.out.println(rol.getValue());
-            
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, debes llenar todos los campos.", ButtonType.OK);
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.show();
-            
+               
+               //nombre,apellido,telefono,email,direccion,cedula,matricula,clave,usuario;
+            if(usuario.getText().isEmpty()||nombre.getText().isEmpty()||telefono.getText().isEmpty()||email.getText().isEmpty()
+                    ||direccion.getText().isEmpty()||cedula.getText().isEmpty()||matricula.getText().isEmpty()||
+                    clave.getText().isEmpty()||(rol.getValue()==null)){
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, llene todos los campos.", ButtonType.OK);
+                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                 alert.show();          
+                 //------------angel mira asi se obtiene el valor de un combo box System.out.println(rol.getValue()); si esta vacio bota null.--------
+
             }else{
 
-                
-                
                 if(ValidarDatos(usuario.getText())){
-                    
-                    try {
-                        Insertar();
-                        box.getChildren().remove(agregar);
-                    }catch (SQLException ex) {
-                       Logger.getLogger(AdmUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                }
-                else{
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el usuario ya esta registrado anteriormente.", ButtonType.OK);
-                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                    alert.show();
-                    
-                }
-            }  
+                 try {                   
+
+
+                     Conexion con=new Conexion();          
+
+                     con.connect();
+
+                     PreparedStatement stmt;
+                     String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
+                             + "VALUES (\""+usuario.getText()+"\",\""+clave.getText()+"\",\""+rol.getValue().toString()+"\")";
+
+
+
+
+                     stmt = con.getCn().prepareStatement(query);
+
+
+                     int rs= stmt.executeUpdate();
+
+                     query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
+                             + "VALUES (\""+cedula.getText()+"\",\""+nombre.getText()+"\",\""+apellido.getText()+"\",\""+email.getText()+"\",\""+telefono.getText()+"\",\""+usuario.getText()+"\")";
+
+                     stmt = con.getCn().prepareStatement(query);
+
+
+                     int rs2= stmt.executeUpdate();
+
+                     
+                     
+                     
+
+
+
+                 } catch (SQLException ex) {
+                     Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 
+                 box.getChildren().remove(agregar);
+             }
+             else{
+
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el usuario ya esta registrado anteriormente.", ButtonType.OK);
+                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                 alert.show();
+
+             }
+                         }
             });
+
         
         
         
