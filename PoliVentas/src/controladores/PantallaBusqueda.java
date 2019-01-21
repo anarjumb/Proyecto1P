@@ -21,10 +21,14 @@ import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -40,7 +44,6 @@ public class PantallaBusqueda {
     private StackPane panelCentral;
     private Button btn_buscar;
     private Button btn_salir;
-    private Label lbl_elemento;
     private TextField tf_buscar;
     private HBox panelSuperior;
     private TextArea ta_resultados;
@@ -56,7 +59,6 @@ public class PantallaBusqueda {
         box = new VBox();
         btn_buscar = new Button("Buscar");
         btn_salir = new Button("Atrás");
-        lbl_elemento = new Label("Ingrese producto a buscar: ");
         tf_buscar = new TextField();
         panelSuperior = new HBox();
         ta_resultados = new TextArea();
@@ -64,6 +66,12 @@ public class PantallaBusqueda {
         
         DarEfectoBoton(btn_salir);
         DarEfectoBoton(btn_buscar);
+        
+        tf_buscar.setPromptText("Buscar producto...");
+        HBox.setHgrow(tf_buscar, Priority.ALWAYS);
+        
+        HBox searchBar = new HBox();
+        searchBar.getChildren().add(tf_buscar);
         
         Image image = new Image(getClass().getResourceAsStream("/imagenes/azul.jpg"));
         ImageView iv = new ImageView(image);
@@ -74,10 +82,10 @@ public class PantallaBusqueda {
         iv.setFitWidth(Constantes.ANCHO/2);
         
         
-        panelCentral.getChildren().addAll(iv,ta_resultados);
+        panelCentral.getChildren().addAll(iv,tableView());
         panelCentral.setAlignment(Pos.CENTER);
         
-        panelSuperior.getChildren().addAll(lbl_elemento,tf_buscar, btn_buscar,btn_salir);
+        panelSuperior.getChildren().addAll(searchBar, btn_buscar,btn_salir);
         panelSuperior.setSpacing(50);
         panelSuperior.setAlignment(Pos.CENTER);
         
@@ -103,9 +111,9 @@ public class PantallaBusqueda {
        // root.setTop(panelSuperior);
         root.setCenter(box);
        
-        
-        lbl_elemento.setTextFill(Color.web("#59FF33"));
-        lbl_elemento.setFont(Font.font("Cambria", 27));
+//        
+//        lbl_elemento.setTextFill(Color.web("#59FF33"));
+//        lbl_elemento.setFont(Font.font("Cambria", 27));
         
         
         btn_buscar.setOnAction(e ->{ 
@@ -126,7 +134,6 @@ public class PantallaBusqueda {
                        //stmt2.setString(2, tf_buscar.getText());
                     
                         ResultSet rs2= stmt2.executeQuery();
-                      // ResultSet rs2= stmt2.executeQuery();
                        if(!rs2.next()){
                            
                             rs2.previous();
@@ -164,6 +171,37 @@ public class PantallaBusqueda {
             }
     });
         
+    }
+    
+    
+    private TableView tableView(){
+        TableView<Producto> tableView = new TableView<>();
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        TableColumn<Producto, String> colNombre = new TableColumn<>("Nombre");
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
+        TableColumn<Producto, String> colCategoría = new TableColumn<>("Categoría");
+        colCategoría.setCellValueFactory(new PropertyValueFactory<>("categoría"));
+
+        TableColumn<Producto, Number> colPrecio = new TableColumn<>("Precio");
+        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        
+        TableColumn<Producto, Number> colEntrega = new TableColumn<>("Tiempo máximo de entrega");
+        colEntrega.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        
+        TableColumn<Producto, Number> colCalificacion = new TableColumn<>("Calificación");
+        colCalificacion.setCellValueFactory(new PropertyValueFactory<>("calificacionProducto"));
+
+       tableView.getColumns().addAll(colNombre, colCategoría, colPrecio, colEntrega, colCalificacion);
+       
+       Producto p1 = new Producto("Cargador","Telefonía",7,"2 días",4);
+       Producto p2 = new Producto("Mouse","Tecnología",5,"5 días",3);
+       Producto p3 = new Producto("Hawei p20","Telefonía",300,"7 días",5);
+       
+       tableView.getItems().addAll(p1,p2,p3);
+       return tableView;
+       
     }
     
     private ArrayList<String> verificarTexto(String cadena){
