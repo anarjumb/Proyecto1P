@@ -39,7 +39,7 @@ public class Inicio {
     private HBox BoxUser, BoxPass;
     private TextField usuario, clave;
     private Label lbluser, lblpass;
-    
+    private  static String nombreusuario;
     
 
 
@@ -100,6 +100,7 @@ public class Inicio {
 
 
                     stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario=?");
+                    nombreusuario = usuario.getText();
                     stmt2.setString(1, usuario.getText());
                    // stmt2.setString(2, clave.getText());
                     ResultSet rs2= stmt2.executeQuery();
@@ -193,7 +194,10 @@ public class Inicio {
             return root;
         }
         
-        
+        public static String getUsuario(){
+            return nombreusuario;
+            
+        }
          public void DarEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         

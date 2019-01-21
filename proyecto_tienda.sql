@@ -190,14 +190,20 @@ INSERT INTO `vendedor` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, 
 -- Estructura de tabla para la tabla `venta`
 --
 
+
 CREATE TABLE `venta` (
   `vendedor` varchar(15) DEFAULT NULL,
   `comprador` varchar(15) DEFAULT NULL,
   `id` int(100) NOT NULL,
-  `cantidad` int(10) NOT NULL
+  `cantidad` int(10) NOT NULL,
+  `precio` float(10),
+  `producto` varchar(20)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
+INSERT INTO `venta`  VALUES
+('v', 'abc', 1, 5, 100.1, `agua`);
+
+
 -- Índices para tablas volcadas
 --
 
