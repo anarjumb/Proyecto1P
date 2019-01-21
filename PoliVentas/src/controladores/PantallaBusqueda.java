@@ -5,29 +5,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 /**
  *
  * @author RBLOO
@@ -35,12 +33,10 @@ import javafx.scene.text.Font;
 public class PantallaBusqueda {
     
     private BorderPane root;
-    private StackPane panelCentral;
     private Button btn_buscar;
     private Button btn_salir;
     private TextField tf_buscar;
     private HBox panelSuperior;
-    private TextArea ta_resultados;
     private VBox box;
     
     
@@ -55,8 +51,6 @@ public class PantallaBusqueda {
         btn_salir = new Button("Atrás");
         tf_buscar = new TextField();
         panelSuperior = new HBox();
-        ta_resultados = new TextArea();
-        panelCentral = new StackPane();
         
         DarEfectoBoton(btn_salir);
         DarEfectoBoton(btn_buscar);
@@ -67,23 +61,13 @@ public class PantallaBusqueda {
         HBox searchBar = new HBox();
         searchBar.getChildren().add(tf_buscar);
         
-        Image image = new Image(getClass().getResourceAsStream("/imagenes/azul.jpg"));
-        ImageView iv = new ImageView(image);
         
-        ta_resultados.setScaleX(0.5);
-        ta_resultados.setScaleY(0.5);
-        iv.setFitHeight(Constantes.ALTO/2);
-        iv.setFitWidth(Constantes.ANCHO/2);
-        
-        
-        panelCentral.getChildren().addAll(iv,tableView());
-        panelCentral.setAlignment(Pos.CENTER);
         
         panelSuperior.getChildren().addAll(searchBar, btn_buscar,btn_salir);
         panelSuperior.setSpacing(50);
         panelSuperior.setAlignment(Pos.CENTER);
         
-        box.getChildren().addAll(panelSuperior,panelCentral);
+        box.getChildren().addAll(panelSuperior,tableView());
         box.setAlignment(Pos.CENTER);
         box.setSpacing(35);
         
@@ -193,7 +177,33 @@ public class PantallaBusqueda {
        Producto p2 = new Producto("Mouse","Tecnología",5,"5 días",3);
        Producto p3 = new Producto("Hawei p20","Telefonía",300,"7 días",5);
        
-       tableView.getItems().addAll(p1,p2,p3);
+       
+       List<Producto> list = new ArrayList<>();
+       list.add(p1);
+       list.add(p2);
+       list.add(p3);
+       ObservableList<Producto> obList = FXCollections.observableList(list);
+       
+       tableView.getItems().addAll(obList);
+       //Filtrado
+        FilteredList<Producto> filteredData = new FilteredList<>(obList, p -> true);
+        tableView.setItems(filteredData);
+        
+        //Verificar texto escrito
+        tf_buscar.textProperty().addListener((prop, old, text) -> {
+            filteredData.setPredicate(producto -> {
+                if(text == null || text.isEmpty()) return true;
+                String name = producto.getNombre().toLowerCase();  
+                return name.contains(text.toLowerCase());
+            });
+        });
+        
+//
+//        SortedList<Producto> sortedData = new SortedList<>(filteredData);
+//        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+//
+//        tableView.setItems(sortedData);
+//        
        return tableView;
        
     }
