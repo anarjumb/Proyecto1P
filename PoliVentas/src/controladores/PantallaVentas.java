@@ -13,52 +13,83 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 /**
  *
  * @author Mi compu
  */
 public class PantallaVentas {
-    VBox root = new VBox();
-    GridPane top = new GridPane();
-    VBox center = new VBox();
-    TableView tabla;
     
-    Button cerrar = new Button("Cerrar Secion");
-    Label titulo= new Label("Bienvenido Vendedor");
+    private TableView tabla;
+    private BorderPane root;
+    
+    
+    
+   public PantallaVentas(){
+       OrganizarPanel();
+   }
+   
+   
+   public void OrganizarPanel(){
+       
+       
+    root = new BorderPane();
+    VBox box = new VBox();
+   
+    
+    VBox center = new VBox();
+    tabla = new TableView();
+    
+    Button cerrar = new Button("Atrás");
+    
+    DarEfectoBoton(cerrar);
+    
+    cerrar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
+    
+    cargarventas();
+    box.getChildren().addAll(tabla,cerrar);
+    box.setSpacing(35);
+    box.setAlignment(Pos.CENTER);
+    root.setCenter(box);
+    
+    root.setStyle("-fx-background-image: url('/imagenes/ventas.jpg'); "
+                    + "-fx-background-position: center center; "
+                    + "-fx-background-repeat: stretch;"
+                    + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
+    
+       
+   }
     
     
     
     void cargarventas(){
-        top.add(center, 0, 2);
-        top.add(titulo, 0, 1);
         
-        root.getChildren().add(top);
+        
+        
         
         //pedir informacion a la base
         
-        tabla = new TableView();
-        TableColumn nombre = new TableColumn("Nombre");
-        TableColumn categoria = new TableColumn("Categoria");
-        TableColumn precio = new TableColumn("Precio");
-        TableColumn direccion = new TableColumn("Direccion");
+        
         TableColumn comprador = new TableColumn("Comprador");
+        TableColumn producto = new TableColumn("Producto");
+        TableColumn cantidad = new TableColumn("Cantidad");
+        TableColumn precio = new TableColumn("Precio total");
+       
         
         
         
-        nombre.setMinWidth(100);
-        
-        
-        
-        nombre.setCellFactory(new PropertyValueFactory("hola"));
         
        // tabla.setItems(data);
         
         
-        tabla.getColumns().addAll(nombre,categoria,precio);
+        tabla.getColumns().addAll(comprador,producto,cantidad,precio);
         
+       
+        /*
         
         try {
                     Conexion con=new Conexion();
@@ -117,7 +148,7 @@ public class PantallaVentas {
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
+        */
         
         
         
@@ -147,14 +178,24 @@ public class PantallaVentas {
     
     
     
-    Pane getroot(){
-        
-        this.cargarventas();
-        
-        return root;
-        
-        
-    }
+     BorderPane getRoot() {
+            return root;
+        }
     
+     
+     public void DarEfectoBoton(Button boton){
+            boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
+        
+
+            boton.setOnMouseEntered((MouseEvent e) -> {
+                boton.setScaleX(1.1);
+                boton.setScaleY(1.1);
+            });
+
+            boton.setOnMouseExited((MouseEvent e) -> {
+                boton.setScaleX(1);
+                boton.setScaleY(1);
+            });
+        }
     
 }

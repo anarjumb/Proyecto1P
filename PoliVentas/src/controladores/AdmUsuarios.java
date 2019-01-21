@@ -356,7 +356,7 @@ public class AdmUsuarios {
 
         ResultSet rs2= stmt2.executeQuery();
         
-        System.out.println("m");
+        
         
     }
     
@@ -390,6 +390,7 @@ public class AdmUsuarios {
 
 
             while(rs2.next()){
+                System.out.println(rs2.getString("tipo"));
                     personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("u.tipo")));
 
             }
@@ -399,6 +400,7 @@ public class AdmUsuarios {
 
 
             while(rs2.next()){
+                System.out.println(rs2.getString("tipo"));
                     personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("u.tipo")));
 
             }
@@ -408,6 +410,7 @@ public class AdmUsuarios {
 
 
             while(rs2.next()){
+                System.out.println(rs2.getString("u.tipo"));
                     personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("tipo")));
 
             }
