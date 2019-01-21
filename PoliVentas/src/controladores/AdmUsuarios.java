@@ -351,7 +351,8 @@ public class AdmUsuarios {
                                   
                    PreparedStatement stmt;
                    String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
-                           + "VALUES ('"+usuario.getText()+"','"+clave.getText()+"','"+rol.getValue().toString()+"')";
+                           + "VALUES (`"+usuario.getText()+"`,`"+clave.getText()+"`,`"+rol.getValue().toString()+"`)";
+                   System.out.print(query);
                    
                    stmt = con.getCn().prepareStatement(query);
                    
@@ -359,7 +360,7 @@ public class AdmUsuarios {
                    ResultSet rs= stmt.executeQuery();
                    
                    query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
-                           + "VALUES ('"+cedula.getText()+"','"+nombre.getText()+"','"+apellido.getText()+"','"+email.getText()+"','"+telefono.getText()+"','"+usuario.getText()+"')";
+                           + "VALUES (`"+cedula.getText()+"`,`"+nombre.getText()+"`,`"+apellido.getText()+"`,`"+email.getText()+"`,`"+telefono.getText()+"`,`"+usuario.getText()+"`)";
                    
                    stmt = con.getCn().prepareStatement(query);
                    

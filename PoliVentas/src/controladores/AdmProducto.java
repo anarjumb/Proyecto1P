@@ -152,6 +152,8 @@ public class AdmProducto {
         TableColumn nombre = new TableColumn("Nombre");
         TableColumn categoria = new TableColumn("Categoria");
         TableColumn precio = new TableColumn("Precio");
+        //TableColumn cantidad = new TableColumn("Cantidad");
+        
         
         
         
@@ -159,14 +161,14 @@ public class AdmProducto {
         
         
         
-        nombre.setCellFactory(new PropertyValueFactory("hola"));
+       
         
        // tabla.setItems(data);
         
         
         tabla.getColumns().addAll(nombre,categoria,precio);
         
-     /*   try {
+        try{
                     Conexion con=new Conexion();
 
                     con.connect();           
@@ -174,14 +176,14 @@ public class AdmProducto {
                     PreparedStatement stmt2;
                     
                     ArrayList<Producto> productos=new ArrayList();
-                    stmt2 = con.getCn().prepareStatement("SELECT nombre_producto,descripcion FROM producto");
+                    stmt2 = con.getCn().prepareStatement("SELECT nombre_producto,descripcion,precio FROM producto");
                    // stmt2.setString(1, usuario.getText());
                     //stmt2.setString(2, clave.getText());
                     ResultSet rs2= stmt2.executeQuery();
                     
                   
                     while(rs2.next()){
-                            productos.add(new Producto(rs2.getString("nombre_producto"), rs2.getString("descripcion")));
+                            productos.add(new Producto(rs2.getString("nombre_producto"), rs2.getString("descripcion"),rs2.getFloat("precio")));
                                   
                     }
                     
@@ -212,13 +214,13 @@ public class AdmProducto {
                             new PropertyValueFactory<Producto, String>("categoria"));
 
                     //TableColumn emailCol = new TableColumn("Email");
-                   /* precio.setMinWidth(200);
+                    precio.setMinWidth(200);
                     precio.setCellValueFactory(
-                            new PropertyValueFactory<Producto, String>("precio"));
-*/
+                            new PropertyValueFactory<Producto, Float>("precio"));
+
                     
 
-/*
+
 
 
                     tabla.setItems(data);
@@ -227,7 +229,7 @@ public class AdmProducto {
                 // TODO code application logic here
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
             
             botones.getChildren().addAll(atras,add,delete,edit);
             botones.setSpacing(35);

@@ -146,23 +146,23 @@ public class Registro {
                                   
                    PreparedStatement stmt;
                    String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
-                           + "VALUES ('"+usuario.getText()+"','"+clave.getText()+"','"+rol.getValue().toString()+"')";
+                           + "VALUES (\""+usuario.getText()+"\",\""+clave.getText()+"\",\""+rol.getValue().toString()+"\")";
                    
-                   System.out.println("no");
-                   
-                   stmt = con.getCn().prepareStatement("INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
-                           + "VALUES ('"+usuario.getText()+"','"+clave.getText()+"','"+rol.getValue()+"')");
+                   System.out.println(query);
                    
                    
-                   ResultSet rs= stmt.executeQuery();
-                   System.out.println("mm");
+                   stmt = con.getCn().prepareStatement(query);
+                   
+                   
+                   int rs= stmt.executeUpdate();
+                   
                    query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
-                           + "VALUES ('"+cedula.getText()+"','"+nombre.getText()+"','"+apellido.getText()+"','"+email.getText()+"','"+telefono.getText()+"','"+usuario.getText()+"')";
+                           + "VALUES (\""+cedula.getText()+"\",\""+nombre.getText()+"\",\""+apellido.getText()+"\",\""+email.getText()+"\",\""+telefono.getText()+"\",\""+usuario.getText()+"\")";
                    
                    stmt = con.getCn().prepareStatement(query);
                    
                    System.out.println("am");
-                   ResultSet rs2= stmt.executeQuery();
+                   int rs2= stmt.executeUpdate();
                    
                    if(rol.getValue()=="vendedor"){
                        PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
