@@ -148,22 +148,33 @@ public class Registro {
                    String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
                            + "VALUES ('"+usuario.getText()+"','"+clave.getText()+"','"+rol.getValue().toString()+"')";
                    
-                   stmt = con.getCn().prepareStatement("INSERT INTO  (`usuario`, `contrasenia`, `tipo`) VALUES ('am', 'am', 'am'");
+                   System.out.println("no");
+                   
+                   stmt = con.getCn().prepareStatement("INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
+                           + "VALUES ('"+usuario.getText()+"','"+clave.getText()+"','"+rol.getValue()+"')");
                    
                    
                    ResultSet rs= stmt.executeQuery();
-                   
+                   System.out.println("mm");
                    query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
                            + "VALUES ('"+cedula.getText()+"','"+nombre.getText()+"','"+apellido.getText()+"','"+email.getText()+"','"+telefono.getText()+"','"+usuario.getText()+"')";
                    
-                   stmt = con.getCn().prepareStatement("INSERT INTO  (`usuario`, `contrasenia`, `tipo`) VALUES ('am', 'am', 'am'");
+                   stmt = con.getCn().prepareStatement(query);
                    
-                   
+                   System.out.println("am");
                    ResultSet rs2= stmt.executeQuery();
                    
+                   if(rol.getValue()=="vendedor"){
+                       PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+                       
+                   }
+                   else if(rol.getValue()=="comprador"){
+                       PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+                       
+                   }
                    
                    
-                   PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+                   
                } catch (SQLException ex) {
                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
                }

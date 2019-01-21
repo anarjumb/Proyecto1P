@@ -342,19 +342,44 @@ public class AdmUsuarios {
         
     public void Insertar() throws SQLException{
         
-        Conexion con=new Conexion();
-
-        con.connect();           
-
-        PreparedStatement stmt2;
-
-        ArrayList<Persona> personas=new ArrayList();
-  
-        stmt2 = con.getCn().prepareStatement("INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`) VALUES ('am', 'am', 'am'");
-       
-       // stmt2 = con.getCn().prepareStatement("INSERT INT * FROM usuario u, comprador c where u.usuario=c.usuario");
-
-        ResultSet rs2= stmt2.executeQuery();
+        try {                   
+                   
+                   
+                   Conexion con=new Conexion();          
+                  
+                   con.connect();
+                                  
+                   PreparedStatement stmt;
+                   String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
+                           + "VALUES ('"+usuario.getText()+"','"+clave.getText()+"','"+rol.getValue().toString()+"')";
+                   
+                   stmt = con.getCn().prepareStatement(query);
+                   
+                   
+                   ResultSet rs= stmt.executeQuery();
+                   
+                   query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
+                           + "VALUES ('"+cedula.getText()+"','"+nombre.getText()+"','"+apellido.getText()+"','"+email.getText()+"','"+telefono.getText()+"','"+usuario.getText()+"')";
+                   
+                   stmt = con.getCn().prepareStatement(query);
+                   
+                   
+                   ResultSet rs2= stmt.executeQuery();
+                   
+                   if(rol.getValue()=="vendedor"){
+                       PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+                       
+                   }
+                   else if(rol.getValue()=="comprador"){
+                       PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+                       
+                   }
+                   
+                   
+                   
+               } catch (SQLException ex) {
+                   Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+               }
         
         
         
