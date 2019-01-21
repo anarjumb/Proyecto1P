@@ -13,13 +13,13 @@ public class Ventas {
     
     private String comprador;
     private String producto;
-    private int catidad;
+    private int cantidad;
     private float precio;
 
-    public Ventas(String comprador, String producto, int catidad, float precio) {
+    public Ventas(String comprador, String producto, int cantidad, float precio) {
         this.comprador = comprador;
         this.producto = producto;
-        this.catidad = catidad;
+        this.cantidad = cantidad;
         this.precio = precio;
     }
 
@@ -39,12 +39,12 @@ public class Ventas {
         this.producto = producto;
     }
 
-    public int getCatidad() {
-        return catidad;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public void setCatidad(int catidad) {
-        this.catidad = catidad;
+    public void setCantidad(int catidad) {
+        this.cantidad = catidad;
     }
 
     public float getPrecio() {

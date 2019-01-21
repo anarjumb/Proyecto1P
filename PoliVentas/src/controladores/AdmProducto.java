@@ -133,9 +133,9 @@ public class AdmProducto {
         botones = new HBox();
         tabla.setEditable(true);
         
-        add = new Button("Agregar Usuario");
-        delete = new Button("Eliminar Usuario");
-        edit = new Button("Editar Usuario");
+        add = new Button("Agregar Producto");
+        delete = new Button("Eliminar Producto");
+        edit = new Button("Editar Producto");
         atras = new Button("Atrás");
         
         DarEfectoBoton(add);
@@ -166,7 +166,7 @@ public class AdmProducto {
         
         tabla.getColumns().addAll(nombre,categoria,precio);
         
-        try {
+     /*   try {
                     Conexion con=new Conexion();
 
                     con.connect();           
@@ -218,7 +218,7 @@ public class AdmProducto {
 */
                     
 
-
+/*
 
 
                     tabla.setItems(data);
@@ -227,7 +227,7 @@ public class AdmProducto {
                 // TODO code application logic here
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
             
             botones.getChildren().addAll(atras,add,delete,edit);
             botones.setSpacing(35);
