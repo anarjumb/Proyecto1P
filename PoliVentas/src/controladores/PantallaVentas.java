@@ -89,7 +89,7 @@ public class PantallaVentas {
         tabla.getColumns().addAll(comprador,producto,cantidad,precio);
         
        
-        /*
+        
         
         try {
                     Conexion con=new Conexion();
@@ -98,15 +98,15 @@ public class PantallaVentas {
 
                     PreparedStatement stmt2;
                     
-                    ArrayList<Producto> productos=new ArrayList();
-                    stmt2 = con.getCn().prepareStatement("SELECT * FROM ventas");
-                   // stmt2.setString(1, usuario.getText());
+                    ArrayList<Ventas> ventas=new ArrayList<Ventas>();
+                    stmt2 = con.getCn().prepareStatement("SELECT comprador, producto, cantidad,precio FROM venta where vendedor=?" );
+                   stmt2.setString(1, Inicio.getUsuario());
                     //stmt2.setString(2, clave.getText());
                     ResultSet rs2= stmt2.executeQuery();
                     
                   
                     while(rs2.next()){
-                            productos.add(new Producto(rs2.getString("nombre_producto"), rs2.getString("descripcion")));
+                            ventas.add(new Ventas(rs2.getString("comprador"), rs2.getString("producto"), rs2.getInt("cantidad"), rs2.getFloat("precio")));
                                   
                     }
                     
@@ -116,7 +116,7 @@ public class PantallaVentas {
                     
                     
                     
-                    final ObservableList<Producto> data = FXCollections.observableArrayList(productos); 
+                    final ObservableList<Ventas> data = FXCollections.observableArrayList(ventas); 
                      
                      
                      
@@ -124,18 +124,26 @@ public class PantallaVentas {
                      
                     tabla.setEditable(true);
                     tabla.setVisible(true);
-
-
-                            //TableColumn nombre = new TableColumn("First Name");
-                    nombre.setMinWidth(100);
-                    nombre.setCellValueFactory(
-                            new PropertyValueFactory<Producto, String>("nombre"));
+                    
+                    comprador.setMinWidth(100);
+                    comprador.setCellValueFactory(
+                            new PropertyValueFactory<Producto, String>("comprador"));
 
                     
-                    categoria.setMinWidth(100);
-                    categoria.setCellValueFactory(
-                            new PropertyValueFactory<Producto, String>("categoria"));
+                    producto.setMinWidth(100);
+                    producto.setCellValueFactory(
+                            new PropertyValueFactory<Producto, String>("producto"));
+                    
+                    cantidad.setMinWidth(100);
+                    cantidad.setCellValueFactory(
+                            new PropertyValueFactory<Producto, Integer>("cantidad"));
+                    
+                    precio.setMinWidth(100);
+                    precio.setCellValueFactory(
+                            new PropertyValueFactory<Producto, Float>("precio"));
 
+
+                      
                
 
 
@@ -148,23 +156,10 @@ public class PantallaVentas {
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
             }
-        */
         
         
         
-        //Mostar los datos
-        
-//        String [] ventas = new String[3];
-//        for(int x = 0;x < ventas.length; x++){
-//            
-//            Label fila = new Label(ventas[x]);
-//            center.getChildren().add(fila);
-//            
-//            
-//        }
-//        
-        
-        
+ 
         
         
         

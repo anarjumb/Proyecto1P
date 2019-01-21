@@ -50,7 +50,7 @@ public class PantallaVendedor {
             compend = new Button("Compras");
             salir = new Button("Cerrar Sesión");
             venPen = new Button("Ventas Pendientes");
-            misProd = new Button("Mis Productos--");
+            misProd = new Button("Mis Productos");
             
             //busqueda = new TextField();
             
