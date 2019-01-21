@@ -83,7 +83,7 @@ public class PantallaVendedor {
             
             
             DarEfectoBoton(venPen);
-            
+            venPen.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVentas().getRoot()));
             //
             
            

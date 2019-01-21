@@ -99,9 +99,9 @@ public class Inicio {
                     PreparedStatement stmt2;
 
 
-                    stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario=? and contrasenia=?");
+                    stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario=?");
                     stmt2.setString(1, usuario.getText());
-                    stmt2.setString(2, clave.getText());
+                   // stmt2.setString(2, clave.getText());
                     ResultSet rs2= stmt2.executeQuery();
                     if(!rs2.next()){
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "No existe ese usuario, registrese.", ButtonType.OK);
@@ -111,20 +111,25 @@ public class Inicio {
                     }else{
                         rs2.previous();
                         while(rs2.next()){
-                        PoliVentas.setRol(rs2.getString("tipo"));
-                        if(rs2.getString("tipo").equals("vendedor")){
-                            PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+                            if(rs2.getString("contrasenia").equals(clave.getText())){
+                                PoliVentas.setRol(rs2.getString("tipo"));
+                                if(rs2.getString("tipo").equals("vendedor")){
+                                    PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
 
-                        }else if(rs2.getString("tipo").equals("administrador")){
-                            PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot());
+                                }else if(rs2.getString("tipo").equals("administrador")){
+                                    PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot());
 
-                        }else if(rs2.getString("tipo").equals("comprador")){
-                            PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+                                }else if(rs2.getString("tipo").equals("comprador")){
+                                    PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
 
-                        }else{
-                            System.out.println("esta registrado, pero no tiene asignado un rol");
-                           
-                        }
+                                }
+                            }else{
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Clave incorrecta.", ButtonType.OK);
+                                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                                alert.show();
+                                
+                            }
+                          
                     }  
 
                     
