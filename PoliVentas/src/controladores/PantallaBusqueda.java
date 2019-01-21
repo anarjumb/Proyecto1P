@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -90,7 +91,15 @@ public class PantallaBusqueda {
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
 
         
-        btn_salir.setOnAction(e ->PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot()));
+        btn_salir.setOnAction(e ->{
+            if(PoliVentas.getRol().equals("vendedor")){
+                PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+            }
+            else{
+                PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
+            }
+            
+                });
        // root.setTop(panelSuperior);
         root.setCenter(box);
        
@@ -208,3 +217,9 @@ public class PantallaBusqueda {
             });
         }
 }
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
