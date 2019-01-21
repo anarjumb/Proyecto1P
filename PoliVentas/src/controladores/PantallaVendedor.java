@@ -28,8 +28,8 @@ public class PantallaVendedor {
     private BorderPane root;
     private Button buscar, compend,arttop,salir,venPen,misProd;
     private HBox BoxBusqueda, BoxButton;
-    private TextField busqueda;
-    private Label lblbuscar;
+    //private TextField busqueda;
+   // private Label lblbuscar;
     private VBox box;
 
     PantallaVendedor(){        
@@ -52,12 +52,12 @@ public class PantallaVendedor {
             venPen = new Button("Ventas Pendientes");
             misProd = new Button("Mis Productos--");
             
-            busqueda = new TextField();
+            //busqueda = new TextField();
             
             
-            lblbuscar = new Label("Ingrese búsqueda: ");
+            /*lblbuscar = new Label("Ingrese búsqueda: ");
             lblbuscar.setTextFill(Color.web("#59FF33"));
-            lblbuscar.setFont(Font.font("Cambria", 27));
+            lblbuscar.setFont(Font.font("Cambria", 27));*/
             
             
             
@@ -96,10 +96,10 @@ public class PantallaVendedor {
             salir.setOnAction(e -> PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
             
             
-            BoxBusqueda.getChildren().addAll(lblbuscar,busqueda,buscar);
+          //  BoxBusqueda.getChildren().addAll(lblbuscar,busqueda,buscar);
             BoxBusqueda.setSpacing(50);
             
-            BoxButton.getChildren().addAll(compend,arttop, venPen,misProd);
+            BoxButton.getChildren().addAll(buscar,compend,arttop, venPen,misProd);
             BoxButton.setSpacing(50);
             
             BoxBusqueda.setAlignment(Pos.CENTER);
