@@ -16,9 +16,10 @@ public class Producto {
     private String tiempoEntrega;
     private int calificacionProducto;
 
-    public Producto(String nombre, String categoria){
+    public Producto(String nombre, String categoria, Float precio){
         this.nombre = nombre;
         this.categoria = categoria;
+        this.precio = precio;
     }
     
     public Producto(String nombre, String categoria,float precio, String tiempoEntrega,int calificacionProducto) {

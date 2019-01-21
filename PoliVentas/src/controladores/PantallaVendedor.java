@@ -71,7 +71,7 @@ public class PantallaVendedor {
             
             
             DarEfectoBoton(misProd);
-            misProd.setOnAction(e -> PoliVentas.cambiarVentana(root, new Registro().getRoot()));
+            misProd.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaMisProductos().getRoot()));
             
             
             

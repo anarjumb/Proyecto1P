@@ -21,11 +21,11 @@ public class Conexion {
     public void connect(){
         String url = "jdbc:mysql://localhost:3306/proyecto_tienda";
         //para los demas que no sean adan
-        String user = "root";
-        String pass = "root";
+        //String user = "root";
+        //String pass = "root";
         //especialmente para adan
-        //String user = "user1";
-        //String pass = "user1";
+        String user = "user1";
+        String pass = "user1";
         
         System.out.println("Conectando...");
         try  {
