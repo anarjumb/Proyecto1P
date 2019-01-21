@@ -5,6 +5,11 @@
  */
 package controladores;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -121,18 +126,47 @@ public class Registro {
 
             DarEfectoBoton(registrar);
            registrar.setOnAction(e -> {
-           if(usuario.getText().isEmpty()){
+               
+               //nombre,apellido,telefono,email,direccion,cedula,matricula,clave,usuario;
+           if(usuario.getText().isEmpty()||nombre.getText().isEmpty()||telefono.getText().isEmpty()||email.getText().isEmpty()
+                   ||direccion.getText().isEmpty()||cedula.getText().isEmpty()||matricula.getText().isEmpty()||
+                   clave.getText().isEmpty()||(rol.getValue()==null)){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, llene todos los campos.", ButtonType.OK);
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.show();
-                
-                
-                
+                alert.show();          
                 //------------angel mira asi se obtiene el valor de un combo box System.out.println(rol.getValue()); si esta vacio bota null.--------
                 
-               
            }else{
-               PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+               try {                   
+                   
+                   
+                   Conexion con=new Conexion();          
+                  
+                   con.connect();
+                                  
+                   PreparedStatement stmt;
+                   String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
+                           + "VALUES ('"+usuario.getText()+"','"+clave.getText()+"','"+rol.getValue().toString()+"')";
+                   
+                   stmt = con.getCn().prepareStatement("INSERT INTO  (`usuario`, `contrasenia`, `tipo`) VALUES ('am', 'am', 'am'");
+                   
+                   
+                   ResultSet rs= stmt.executeQuery();
+                   
+                   query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
+                           + "VALUES ('"+cedula.getText()+"','"+nombre.getText()+"','"+apellido.getText()+"','"+email.getText()+"','"+telefono.getText()+"','"+usuario.getText()+"')";
+                   
+                   stmt = con.getCn().prepareStatement("INSERT INTO  (`usuario`, `contrasenia`, `tipo`) VALUES ('am', 'am', 'am'");
+                   
+                   
+                   ResultSet rs2= stmt.executeQuery();
+                   
+                   
+                   
+                   PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
+               } catch (SQLException ex) {
+                   Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+               }
            }});
            
            

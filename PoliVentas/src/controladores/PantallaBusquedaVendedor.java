@@ -35,7 +35,7 @@ import javafx.scene.text.Font;
  */
 public class PantallaBusquedaVendedor {
     
-     private BorderPane root;
+    private BorderPane root;
     private StackPane panelCentral;
     private Button btn_buscar;
     private Button btn_salir;

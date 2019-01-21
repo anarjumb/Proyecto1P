@@ -25,12 +25,19 @@ public class PantallaComprador {
     private BorderPane root;
     private Button buscar, compend,arttop,salir;
     private HBox BoxBusqueda, BoxButton;
-  //  private TextField busqueda;
+    private String usuario; 
+   //  private TextField busqueda;
    // private Label lblbuscar;
     private VBox box;
 
     PantallaComprador(){        
 
+        organizarpanel();
+
+    }
+    
+    PantallaComprador(String usuario){        
+        this.usuario= usuario;
         organizarpanel();
 
     }
@@ -67,6 +74,7 @@ public class PantallaComprador {
             
             DarEfectoBoton(compend);
             //
+            
 
             
             
