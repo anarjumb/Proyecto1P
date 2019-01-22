@@ -18,8 +18,8 @@ public class Conectar {
     private static Connection connect;
     private static final String driver = "com.mysql.jdbc.Driver";
     private static final String usuario = "root";
-    private static final String password = "root";
-    private static final String url = "jdbc:mysql://localhost:3306/nombreBase";
+    private static final String password = "";
+    private static final String url = "jdbc:mysql://localhost:3306/proyecto_tienda";
     
     public Conectar(){
         connect = null;
