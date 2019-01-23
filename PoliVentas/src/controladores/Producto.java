@@ -10,24 +10,40 @@ package controladores;
  * @author adan
  */
 public class Producto {
+    private int id_producto;
     private String nombre;
     private String categoria;
     private float precio;
     private String tiempoEntrega;
     private int calificacionProducto;
 
-    public Producto(String nombre, String categoria, Float precio){
+    public Producto(int id_producto, String nombre, String categoria, float precio){
+        
+        this.id_producto = id_producto;
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
+        tiempoEntrega = "hoy";
+        calificacionProducto = 0;
     }
     
-    public Producto(String nombre, String categoria,float precio, String tiempoEntrega,int calificacionProducto) {
+    public Producto(int id_producto,String nombre, String categoria,float precio, String tiempoEntrega,int calificacionProducto) {
+        this.id_producto = id_producto;
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
         this.tiempoEntrega = tiempoEntrega;
         this.calificacionProducto = calificacionProducto;
+        
+        
+    }
+
+    public int getId_producto() {
+        return id_producto;
+    }
+
+    public void setId_producto(int id_producto) {
+        this.id_producto = id_producto;
     }
 
     public String getNombre() {

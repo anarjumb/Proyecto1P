@@ -173,9 +173,9 @@ public class PantallaBusqueda {
 
        tableView.getColumns().addAll(colNombre, colCategoría, colPrecio, colEntrega, colCalificacion);
        
-       Producto p1 = new Producto("Cargador","Telefonía",7,"2 días",4);
-       Producto p2 = new Producto("Mouse","Tecnología",5,"5 días",3);
-       Producto p3 = new Producto("Hawei p20","Telefonía",300,"7 días",5);
+       Producto p1 = new Producto(1,"Cargador","Telefonía",1,"2 días",4);
+       Producto p2 = new Producto(2,"Mouse","Tecnología",5,"5 días",3);
+       Producto p3 = new Producto(3,"Hawei p20","Telefonía",300,"7 días",5);
        
        
        List<Producto> list = new ArrayList<>();

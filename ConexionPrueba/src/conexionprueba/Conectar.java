@@ -8,6 +8,8 @@ package conexionprueba;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,8 +41,12 @@ public class Conectar {
     }
     //Desconectamos la base de datos
     public void desconectar(){
-        connect = null;
-        System.out.println("Conexion finalizada");
+        try {
+            connect.close();
+            System.out.println("Conexion finalizada");
+        } catch (SQLException ex) {
+            Logger.getLogger(Conectar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

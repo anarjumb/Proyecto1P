@@ -8,6 +8,7 @@ package controladores;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -56,7 +57,8 @@ public class Registro {
             n1 = new VBox();
             n2 = new VBox();
             rol = new ComboBox();
-            
+            //Atributos de la base de datos
+            Conexion con=new Conexion();
             
             
             
@@ -140,10 +142,6 @@ public class Registro {
 
                 if(ValidarDatos(usuario.getText())){
                  try {                   
-
-
-                     Conexion con=new Conexion();          
-
                      con.connect();
 
                      PreparedStatement stmt;
@@ -158,8 +156,9 @@ public class Registro {
 
                      int rs= stmt.executeUpdate();
 
-                     query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
-                             + "VALUES (\""+cedula.getText()+"\",\""+nombre.getText()+"\",\""+apellido.getText()+"\",\""+email.getText()+"\",\""+telefono.getText()+"\",\""+usuario.getText()+"\")";
+                     query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `telefono`, `correo`,`direccion`,`matricula`, `usuario`) "
+                             + "VALUES ('"+cedula.getText()+"','"+nombre.getText()+"','"+apellido.getText()+"','"+telefono.getText()+"','"
+                             +email.getText()+"','" +direccion.getText()+"','"+matricula.getText()+"','" +usuario.getText()+"')";
 
                      stmt = con.getCn().prepareStatement(query);
 
@@ -179,7 +178,13 @@ public class Registro {
 
                  } catch (SQLException ex) {
                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+                     try {
+                         Statement stmt = con.getCn().createStatement();
+                         stmt.executeUpdate("delete from usuario where usuario ='"+usuario.getText()+"';");
+                     } catch (SQLException ex1) {
+                         Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex1);
+                     }
+                 } 
              }
              else{
 

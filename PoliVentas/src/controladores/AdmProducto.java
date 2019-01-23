@@ -176,14 +176,14 @@ public class AdmProducto {
                     PreparedStatement stmt2;
                     
                     ArrayList<Producto> productos=new ArrayList();
-                    stmt2 = con.getCn().prepareStatement("SELECT nombre_producto,descripcion,precio FROM producto");
+                    stmt2 = con.getCn().prepareStatement("SELECT id_producto,nombre_producto,descripcion,precio FROM producto");
                    // stmt2.setString(1, usuario.getText());
                     //stmt2.setString(2, clave.getText());
                     ResultSet rs2= stmt2.executeQuery();
                     
                   
                     while(rs2.next()){
-                            productos.add(new Producto(rs2.getString("nombre_producto"), rs2.getString("descripcion"),rs2.getFloat("precio")));
+                            productos.add(new Producto(rs2.getInt("id_producto"),rs2.getString("nombre_producto"), rs2.getString("descripcion"),rs2.getFloat("precio")));
                                   
                     }
                     

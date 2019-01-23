@@ -60,7 +60,7 @@ public class Inicio {
             BoxPass = new HBox();
             boxlabel = new VBox();
             boxfield = new VBox();
-
+            Conexion con = new Conexion();;
 
             inicio = new Button("Iniciar Sesion");
             salir = new Button("Salir");
@@ -92,8 +92,6 @@ public class Inicio {
                 
                 
                 try {
-                    Conexion con=new Conexion();
-
                     con.connect();           
 
                     PreparedStatement stmt2;
@@ -155,7 +153,9 @@ public class Inicio {
            
             DarEfectoBoton(salir);
             
-            salir.setOnAction(e ->Platform.exit());
+            salir.setOnAction(e ->{Platform.exit();
+                        con.desconectar();
+                    });
             
             
             
