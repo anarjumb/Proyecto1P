@@ -31,17 +31,7 @@ import javafx.scene.layout.VBox;
 public class AdmProducto {
     
     private BorderPane root;
-    private TableView tabla;
-    private VBox box,agregar;
-    private Button add;
-    private Button delete;
-    private Button edit; 
-    private Button atras;
-    private Button add1;
-    private HBox botones;
-    private TextField nombre;
-    private TextField categoria; 
-    private TextField precio;
+    
     
     public AdmProducto(){
         OrganizarPanel();
@@ -51,6 +41,18 @@ public class AdmProducto {
     
      public void PanelAdd(){
         
+        TableView tabla;
+        VBox box,agregar;
+        Button add;
+        Button delete;
+        Button edit; 
+        Button atras;
+        Button add1;
+        HBox botones;
+        TextField nombre;
+        TextField categoria; 
+        TextField precio;
+         
         add1 = new Button("Agregar");
         DarEfectoBoton(add1);
         agregar.getChildren().clear();
