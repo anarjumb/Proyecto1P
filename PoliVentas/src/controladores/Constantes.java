@@ -9,11 +9,14 @@ package controladores;
  *
  * @author adan
  */
-public class Constantes {
+final class Constantes {
     
-    public static int ANCHO = 1350;
+    private Constantes(){
+         throw new IllegalStateException("Constantes class");
+    }
+    public static final int ANCHO = 1350;
     
 
-    public static int ALTO = 775;
+    public static final int ALTO = 775;
     
 }

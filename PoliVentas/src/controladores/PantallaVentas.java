@@ -22,7 +22,7 @@ import javafx.scene.layout.*;
  *
  * @author Mi compu
  */
-public class PantallaVentas {
+public final class PantallaVentas {
     
     private TableView tabla;
     private BorderPane root;
@@ -30,23 +30,20 @@ public class PantallaVentas {
     
     
    public PantallaVentas(){
-       OrganizarPanel();
+       organizarPanel();
    }
    
    
-   public void OrganizarPanel(){
+   public void organizarPanel(){
        
        
     root = new BorderPane();
     VBox box = new VBox();
-   
-    
-    VBox center = new VBox();
     tabla = new TableView();
     
     Button cerrar = new Button("Atrás");
     
-    DarEfectoBoton(cerrar);
+    darEfectoBoton(cerrar);
     
     cerrar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
     
@@ -68,28 +65,15 @@ public class PantallaVentas {
     
     void cargarventas(){
         
-        
-        
-        
-        //pedir informacion a la base
-        
-        
         TableColumn comprador = new TableColumn("Comprador");
         TableColumn producto = new TableColumn("Producto");
         TableColumn cantidad = new TableColumn("Cantidad");
         TableColumn precio = new TableColumn("Precio total");
        
-        
-        
-        
-        
-       // tabla.setItems(data);
-        
-        
         tabla.getColumns().addAll(comprador,producto,cantidad,precio);
         
        
-        
+        ResultSet rs2 = null;
         
         try {
                     Conexion con=new Conexion();
@@ -98,11 +82,10 @@ public class PantallaVentas {
 
                     PreparedStatement stmt2;
                     
-                    ArrayList<Ventas> ventas=new ArrayList<Ventas>();
+                    ArrayList<Ventas> ventas=new ArrayList<>();
                     stmt2 = con.getCn().prepareStatement("SELECT comprador, producto, cantidad,precio FROM venta where vendedor=?" );
                    stmt2.setString(1, Inicio.getUsuario());
-                    //stmt2.setString(2, clave.getText());
-                    ResultSet rs2= stmt2.executeQuery();
+                    rs2= stmt2.executeQuery();
                     
                   
                     while(rs2.next()){
@@ -111,15 +94,7 @@ public class PantallaVentas {
                     }
                     
                     
-                    
-                  
-                    
-                    
-                    
                     final ObservableList<Ventas> data = FXCollections.observableArrayList(ventas); 
-                     
-                     
-                     
                      
                      
                     tabla.setEditable(true);
@@ -127,27 +102,20 @@ public class PantallaVentas {
                     
                     comprador.setMinWidth(100);
                     comprador.setCellValueFactory(
-                            new PropertyValueFactory<Producto, String>("comprador"));
+                            new PropertyValueFactory<>("comprador"));
 
                     
                     producto.setMinWidth(100);
                     producto.setCellValueFactory(
-                            new PropertyValueFactory<Producto, String>("producto"));
+                            new PropertyValueFactory<>("producto"));
                     
                     cantidad.setMinWidth(100);
                     cantidad.setCellValueFactory(
-                            new PropertyValueFactory<Producto, Integer>("cantidad"));
+                            new PropertyValueFactory<>("cantidad"));
                     
                     precio.setMinWidth(100);
                     precio.setCellValueFactory(
-                            new PropertyValueFactory<Producto, Float>("precio"));
-
-
-                      
-               
-
-
-
+                            new PropertyValueFactory<>("precio"));
 
                     tabla.setItems(data);
 
@@ -155,30 +123,23 @@ public class PantallaVentas {
                
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+            if(rs2 !=null){
+                try {
+                    rs2.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        
-        
-        
- 
-        
-        
-        
-        
-        
-        
+        }
     }
-    
-    
-    
-    
-    
     
      BorderPane getRoot() {
             return root;
         }
     
      
-     public void DarEfectoBoton(Button boton){
+     public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 

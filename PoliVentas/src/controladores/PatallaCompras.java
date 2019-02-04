@@ -32,14 +32,7 @@ public class PatallaCompras {
     
      private BorderPane root;
      private TableView tabla;
-    private VBox box;
-    private VBox agregar;
-    private Button add;
-    private Button delete;
-    private Button edit;
-    private Button atras;
-    private Button add1;
-    private HBox botones;
+    
     
     private String usuario;
 
@@ -49,12 +42,16 @@ public class PatallaCompras {
     }
      
      public void organizarpanel(){
-         
+          VBox box;
+         Button add;
+         Button delete;
+         Button edit;
+         Button atras;
+         HBox botones;
          root = new BorderPane();
         tabla = new TableView();
         box = new VBox();
         botones = new HBox();
-        agregar = new VBox();
         tabla.setEditable(true);
 
         add = new Button("Agregar Usuario");
@@ -63,11 +60,11 @@ public class PatallaCompras {
         atras = new Button("Atrás");
         
         
-        DarEfectoBoton(atras);
+        darEfectoBoton(atras);
         
         atras.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
         
-        CargarDatos();
+        cargarDatos();
         
             botones.getChildren().addAll(atras,add,delete,edit);
             botones.setSpacing(35);
@@ -84,16 +81,11 @@ public class PatallaCompras {
                     + "-fx-background-repeat: stretch;"
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
             
-            
-
-
-
-         
      }
      
      
      
-     public void CargarDatos(){
+     public void cargarDatos(){
         ResultSet rs2 = null;
         try {
 
@@ -102,12 +94,12 @@ public class PatallaCompras {
             TableColumn apellido = new TableColumn("Apellido");
             TableColumn correo = new TableColumn("Correo");
             TableColumn telefono = new TableColumn("Telefono");
-            TableColumn usuario = new TableColumn("Usuario");
+            TableColumn usuario1 = new TableColumn("Usuario");
             TableColumn contrasenia = new TableColumn("Clave");
             TableColumn rol = new TableColumn("Rol");
 
 
-            tabla.getColumns().addAll(cedula,usuario,contrasenia,nombre,apellido,telefono,correo,rol);
+            tabla.getColumns().addAll(cedula,usuario1,contrasenia,nombre,apellido,telefono,correo,rol);
             Conexion con=new Conexion();
 
             con.connect();           
@@ -186,8 +178,8 @@ public class PatallaCompras {
             cedula.setCellValueFactory(new PropertyValueFactory<>("cedula"));
 
 
-            usuario.setMinWidth(200);
-            usuario.setCellValueFactory(
+            usuario1.setMinWidth(200);
+            usuario1.setCellValueFactory(
                     new PropertyValueFactory<>("usuario"));
 
 
@@ -208,8 +200,6 @@ public class PatallaCompras {
 
             tabla.setItems(data);
 
-
-            // TODO code application logic here
         } catch (SQLException ex) {
             Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
@@ -225,7 +215,7 @@ public class PatallaCompras {
         
     }
      
-     public void DarEfectoBoton(Button boton){
+     public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 

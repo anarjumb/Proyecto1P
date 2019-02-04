@@ -17,23 +17,23 @@ public class ValidarDatosTest extends TestCase {
     
     public void testSimple(){
         
-        assertTrue(Registro.ValidarDatos("a"));
+        assertTrue(Registro.validarDatos("a"));
         
     }    
     
     public void testMalo(){
         
-        assertTrue(!Registro.ValidarDatos("z"));
+        assertTrue(!Registro.validarDatos("z"));
         
     }
     public void testVacio(){
         
-        assertTrue(!Registro.ValidarDatos(""));
+        assertTrue(!Registro.validarDatos(""));
         
     }
     public void testNulo(){
         
-        assertTrue(!Registro.ValidarDatos(null));
+        assertTrue(!Registro.validarDatos(null));
         
     }
     

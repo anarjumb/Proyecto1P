@@ -5,8 +5,6 @@
  */
 package modelo;
 
-import java.util.Date;
-
 /**
  *
  * @author adan

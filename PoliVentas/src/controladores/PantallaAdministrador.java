@@ -5,14 +5,10 @@
  */
 package controladores;
 
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -22,9 +18,8 @@ import javafx.scene.layout.VBox;
 public class PantallaAdministrador {
     
     private BorderPane root;
-    private Button admUser, admProd,salir;
     
-    private VBox box;
+    
 
     PantallaAdministrador(){        
 
@@ -33,39 +28,26 @@ public class PantallaAdministrador {
     }
 
     public void organizarpanel(){
+            VBox box;
             root = new BorderPane();
             box = new VBox();
-           
+             Button admUser;
+             Button admProd;
+             Button salir;
 
 
             admUser = new Button("Administrar Usuarios");
             admProd = new Button("Adminsitrar Productos");
             salir = new Button("Cerrar Sesión");
            
-            
-            
            
-            
-           
-            
-            
-
-           
-            DarEfectoBoton(admUser);
+            darEfectoBoton(admUser);
             admUser.setOnAction(e -> PoliVentas.cambiarVentana(root, new AdmUsuarios().getRoot()));
-            //
             
-            DarEfectoBoton(admProd);
+            darEfectoBoton(admProd);
             admProd.setOnAction(e -> PoliVentas.cambiarVentana(root, new AdmProducto().getRoot()));
-            //
-
-            
-
-            
-
-        //    inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
         
-            DarEfectoBoton(salir);
+            darEfectoBoton(salir);
             
             salir.setOnAction(e -> PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
             
@@ -73,16 +55,8 @@ public class PantallaAdministrador {
             box.getChildren().addAll(admUser,admProd,salir);
             box.setSpacing(50);
             
-          
-            
             box.setAlignment(Pos.CENTER);
             
-
-
-
-          
-
-
 
             root.setStyle("-fx-background-image: url('/imagenes/admin.jpg'); "
                     + "-fx-background-position: center center; "
@@ -100,7 +74,7 @@ public class PantallaAdministrador {
         }
         
         
-        public void DarEfectoBoton(Button boton){
+        public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 

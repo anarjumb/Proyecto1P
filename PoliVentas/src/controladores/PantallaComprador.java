@@ -7,28 +7,19 @@ package controladores;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 /**
  *
  * @author adan
  */
-public class PantallaComprador {
+public final class PantallaComprador {
     
     private BorderPane root;
-    private Button buscar, compend,arttop,salir;
-    private HBox BoxBusqueda, BoxButton;
-    private String usuario; 
-   //  private TextField busqueda;
-   // private Label lblbuscar;
-    private VBox box;
+    
 
     PantallaComprador(){        
 
@@ -36,17 +27,19 @@ public class PantallaComprador {
 
     }
     
-    PantallaComprador(String usuario){        
-        this.usuario= usuario;
-        organizarpanel();
-
-    }
 
     public void organizarpanel(){
             root = new BorderPane();
+             Button buscar;
+             Button compend;
+             Button arttop;
+             Button salir;
+             HBox boxBusqueda;
+             HBox boxButton;
+             VBox box;
             box = new VBox();
-            BoxBusqueda = new HBox();
-            BoxButton = new HBox();
+            boxBusqueda = new HBox();
+            boxButton = new HBox();
 
 
             buscar = new Button("Buscar");
@@ -54,53 +47,23 @@ public class PantallaComprador {
             compend = new Button("Compras");
             salir = new Button("Cerrar Sesión");
             
-     //       busqueda = new TextField();
+            darEfectoBoton(arttop);
             
+            darEfectoBoton(compend);
             
-           /* lblbuscar = new Label("Ingrese búsqueda: ");
-            lblbuscar.setFont(Font.font("Cambria", 27));
-            lblbuscar.setTextFill(Color.web("#59FF33"));*/
-            
-            
-
-           
-
-
-       
-            
-            
-            DarEfectoBoton(arttop);
-            //
-            
-            DarEfectoBoton(compend);
-            //
-            
-
-            
-            
-            DarEfectoBoton(buscar);           
-             buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaBusqueda().getRoot()));
-
-        //    inicio.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
-        
-        
-        
-            DarEfectoBoton(salir);
+            darEfectoBoton(buscar);           
+            buscar.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaBusqueda().getRoot()));
+            darEfectoBoton(salir);
             salir.setOnAction(e -> PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
+            boxButton.getChildren().addAll(buscar,compend,arttop);
+            boxButton.setSpacing(50);
             
-            
-          /*  BoxBusqueda.getChildren().addAll(lblbuscar,busqueda,buscar);
-            BoxBusqueda.setSpacing(50);*/
-            
-            BoxButton.getChildren().addAll(buscar,compend,arttop);
-            BoxButton.setSpacing(50);
-            
-            BoxBusqueda.setAlignment(Pos.CENTER);
-            BoxButton.setAlignment(Pos.CENTER);
+            boxBusqueda.setAlignment(Pos.CENTER);
+            boxButton.setAlignment(Pos.CENTER);
 
 
 
-            box.getChildren().addAll(BoxButton,salir);
+            box.getChildren().addAll(boxButton,salir);
 
 
 
@@ -120,7 +83,7 @@ public class PantallaComprador {
             return root;
         }
         
-        public void DarEfectoBoton(Button boton){
+        public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 

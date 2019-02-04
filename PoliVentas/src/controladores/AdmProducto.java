@@ -31,38 +31,27 @@ import javafx.scene.layout.VBox;
 public class AdmProducto {
     
     private BorderPane root;
-    
+    private    VBox box;
+    private    VBox agregar;
+    private    Button add1;
+    private    TextField nombre;
+    private    TextField categoria; 
+    private    TextField precio;
     
     public AdmProducto(){
-        OrganizarPanel();
+        organizarPanel();
     }
     
     
     
-     public void PanelAdd(){
+     public void panelAdd(){
         
-        TableView tabla;
-        VBox box,agregar;
-        Button add;
-        Button delete;
-        Button edit; 
-        Button atras;
-        Button add1;
-        HBox botones;
-        TextField nombre;
-        TextField categoria; 
-        TextField precio;
+        
          
         add1 = new Button("Agregar");
-        DarEfectoBoton(add1);
+        darEfectoBoton(add1);
         agregar.getChildren().clear();
         box.getChildren().removeAll(agregar);
-        
-        
-        
-        
-        HBox n1 = new HBox();
-        HBox n2 = new HBox();
         
         nombre = new TextField();
         categoria = new TextField();
@@ -93,13 +82,13 @@ public class AdmProducto {
         
     }
     
-    public void PanelEdit(){
+    public void panelEdit(){
         
         
         
         
         add1 = new Button("Edit");
-        DarEfectoBoton(add1);
+        darEfectoBoton(add1);
         
         nombre = new TextField();
         categoria = new TextField();
@@ -130,8 +119,13 @@ public class AdmProducto {
         add1.setOnAction(e -> box.getChildren().remove(agregar));
         
     }
-    public void OrganizarPanel(){
-        
+    public void organizarPanel(){
+            Button delete;
+        Button edit; 
+        Button atras;
+        HBox botones;
+        Button add;
+         TableView tabla;
         root = new BorderPane();
         tabla = new TableView();
         box = new VBox();
@@ -144,33 +138,22 @@ public class AdmProducto {
         edit = new Button("Editar Producto");
         atras = new Button("Atrás");
         
-        DarEfectoBoton(add);
-        DarEfectoBoton(delete);
-        DarEfectoBoton(edit);
-        DarEfectoBoton(atras);
-        
+        darEfectoBoton(add);
+        darEfectoBoton(delete);
+        darEfectoBoton(edit);
+        darEfectoBoton(atras);
+       
         
         atras.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
         
-        add.setOnAction(e -> PanelAdd());
-        edit.setOnAction(e -> PanelEdit());
+        add.setOnAction(e -> panelAdd());
+        edit.setOnAction(e -> panelEdit());
         
         TableColumn nombre = new TableColumn("Nombre");
         TableColumn categoria = new TableColumn("Categoria");
         TableColumn precio = new TableColumn("Precio");
-        //TableColumn cantidad = new TableColumn("Cantidad");
-        
-        
-        
         
         nombre.setMinWidth(100);
-        
-        
-        
-       
-        
-       // tabla.setItems(data);
-        
         
         tabla.getColumns().addAll(nombre,categoria,precio);
         Conexion con=new Conexion();
@@ -251,7 +234,7 @@ public class AdmProducto {
         return root;
     }
     
-     public void DarEfectoBoton(Button boton){
+     public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 

@@ -18,9 +18,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -30,9 +27,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.util.Callback;
 import modelo.Persona;
 
 /**
@@ -43,32 +37,34 @@ public final class AdmUsuarios {
     
     
     private BorderPane root;
+    private    TextField usuario;
+    private    TextField clave;
+    private    TextField nombre;
+    private    TextField apellido;
+    private    TextField telefono;
+    private    TextField email;
+    private    TextField direccion;
+    private    TextField matricula;
+    private    TextField cedula;
+    private    ComboBox rol;
+    private Button add1;
+    private VBox agregar;
+    private VBox box;
+    private TableView tabla;
  
     
     public AdmUsuarios(){
-        OrganizarPanel();
+        organizarPanel();
         
     }
     
     
-    public void PanelAdd(){
-        TableView tabla;
-        VBox box,agregar;
-        Button add,delete,edit,atras,add1;
-        HBox botones;
-        TextField usuario;
-        Button clave;
-        Button nombre;
-        Button apellido;
-        Button telefono;
-        Button email;
-        Button direccion;
-        Button matricula;
-        Button cedula;
-        ComboBox rol;
+    public void panelAdd(){
+        
+        
         
         add1 = new Button("Agregar");
-        DarEfectoBoton(add1);
+        darEfectoBoton(add1);
         agregar.getChildren().clear();
         box.getChildren().removeAll(agregar);
        
@@ -124,18 +120,15 @@ public final class AdmUsuarios {
         box.getChildren().add(agregar);
         add1.setOnAction(e -> {
                
-               //nombre,apellido,telefono,email,direccion,cedula,matricula,clave,usuario;
             if(usuario.getText().isEmpty()||nombre.getText().isEmpty()||telefono.getText().isEmpty()||email.getText().isEmpty()
                     ||direccion.getText().isEmpty()||cedula.getText().isEmpty()||matricula.getText().isEmpty()||
                     clave.getText().isEmpty()||(rol.getValue()==null)){
                  Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, llene todos los campos.", ButtonType.OK);
                  alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                  alert.show();          
-                 //------------angel mira asi se obtiene el valor de un combo box System.out.println(rol.getValue()); si esta vacio bota null.--------
-
             }else{
 
-                if(ValidarDatos(usuario.getText())){
+                if(validarDatos(usuario.getText())){
                  try {                   
 
 
@@ -144,6 +137,7 @@ public final class AdmUsuarios {
                      con.connect();
 
                      PreparedStatement stmt;
+                     
                      String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
                              + "VALUES (\""+usuario.getText()+"\",\""+clave.getText()+"\",\""+rol.getValue().toString()+"\")";
 
@@ -151,9 +145,6 @@ public final class AdmUsuarios {
 
 
                      stmt = con.getCn().prepareStatement(query);
-
-
-                     int rs= stmt.executeUpdate();
 
                      query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
                              + "VALUES (\""+cedula.getText()+"\",\""+nombre.getText()+"\",\""+apellido.getText()+"\",\""+email.getText()+"\",\""+telefono.getText()+"\",\""+usuario.getText()+"\")";
@@ -192,10 +183,10 @@ public final class AdmUsuarios {
     
     
     
-    public void PanelDelete(){
+    public void panelDelete(){
         
         add1 = new Button("Eliminar");
-        DarEfectoBoton(add1);
+        darEfectoBoton(add1);
         
         usuario = new TextField();
        
@@ -225,19 +216,18 @@ public final class AdmUsuarios {
                 alert.show();
 
             }else{
-                if(ValidarDatos(usuario.getText())){
+                if(validarDatos(usuario.getText())){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, el usuario no esta registrado.", ButtonType.OK);
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                     alert.show();
                     
 
                 }else{
-                    System.out.println("aqui estamos");
+               
                     box.getChildren().remove(agregar);
                     
                 }
 
-                //add1.setOnAction(e -> box.getChildren().remove(agregar));
             }
         });
         
@@ -245,13 +235,13 @@ public final class AdmUsuarios {
         
         
     }
-    public void PanelEdit(){
+    public void panelEdit(){
         
         
         
         
         add1 = new Button("Edit");
-        DarEfectoBoton(add1);
+        darEfectoBoton(add1);
         
         usuario = new TextField();
         clave = new TextField();
@@ -293,56 +283,33 @@ public final class AdmUsuarios {
     }
     
     
-    public void OrganizarPanel(){
+    public void organizarPanel(){
         
         root = new BorderPane();
         tabla = new TableView();
         box = new VBox();
-        botones = new HBox();
+        HBox botones = new HBox();
         agregar = new VBox();
-     //   agregar = new HBox();
+
         tabla.setEditable(true);
 
-        add = new Button("Agregar Usuario");
-        delete = new Button("Eliminar Usuario");
-        edit = new Button("Editar Usuario");
-        atras = new Button("Atrás");
+        Button add = new Button("Agregar Usuario");
+        Button edit = new Button("Editar Usuario");
+        Button atras = new Button("Atrás");
+        Button delete = new Button("Eliminar");
         
-        DarEfectoBoton(add);
-        DarEfectoBoton(delete);
-        DarEfectoBoton(edit);
-        DarEfectoBoton(atras);
+        darEfectoBoton(add);
+        darEfectoBoton(delete);
+        darEfectoBoton(edit);
+        darEfectoBoton(atras);
         
         atras.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
-        add.setOnAction(e -> PanelAdd());
-        edit.setOnAction(e -> PanelEdit());
-        delete.setOnAction(e -> PanelDelete());
+        add.setOnAction(e -> panelAdd());
+        edit.setOnAction(e -> panelEdit());
+        delete.setOnAction(e -> panelDelete());
         
         
-        CargarDatos();
-        
-                
-        
-                
-                
-           
-        
-        
-        
-        /*
-        nombre.setMinWidth(100);
-        apellido.setMinWidth(50);
-        
-        
-        nombre.setCellFactory(new PropertyValueFactory("hola"));*/
-        
-       // tabla.setItems(data);
-        
-        
-        
-        
-
-            
+        cargarDatos();
             botones.getChildren().addAll(atras,add,delete,edit);
             botones.setSpacing(35);
             botones.setAlignment(Pos.CENTER);
@@ -365,7 +332,7 @@ public final class AdmUsuarios {
         return root;
     }
     
-     public void DarEfectoBoton(Button boton){
+     public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 
@@ -382,7 +349,7 @@ public final class AdmUsuarios {
         
         
         
-    public void Insertar() throws SQLException{
+    public void insertar() throws SQLException{
         Conexion con=null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -396,7 +363,6 @@ public final class AdmUsuarios {
                                   
                    String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
                            + "VALUES (`"+usuario.getText()+"`,`"+clave.getText()+"`,`"+rol.getValue().toString()+"`)";
-                   System.out.print(query);
                    
                    stmt = con.getCn().prepareStatement(query);
                    
@@ -408,7 +374,7 @@ public final class AdmUsuarios {
                    
                    stmt = con.getCn().prepareStatement(query);
                    
-                   if(rs !=null){
+                   if(null !=rs){
                         try {
                             rs.close();
                         } catch (SQLException ex) {
@@ -437,7 +403,7 @@ public final class AdmUsuarios {
                     rs2.close();
                     rs.close();
                 }catch (SQLException e) {
-                    System.out.println("Error grave: no se puede cerrar el objeto conexión");
+                    Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
         }
@@ -447,23 +413,23 @@ public final class AdmUsuarios {
     }
     
     
-    public void CargarDatos(){
+    public void cargarDatos(){
         Conexion con=null;
         PreparedStatement stmt2 = null;
         ResultSet rs2 = null;
         try {
 
-            TableColumn cedula = new TableColumn("Cedula");
-            TableColumn nombre = new TableColumn("Nombre");
-            TableColumn apellido = new TableColumn("Apellido");
-            TableColumn correo = new TableColumn("Correo");
-            TableColumn telefono = new TableColumn("Telefono");
-            TableColumn usuario = new TableColumn("Usuario");
-            TableColumn contrasenia = new TableColumn("Clave");
-            TableColumn rol = new TableColumn("Rol");
+            TableColumn cedula1 = new TableColumn("Cedula");
+            TableColumn nombre1 = new TableColumn("Nombre");
+            TableColumn apellido1 = new TableColumn("Apellido");
+            TableColumn correo1 = new TableColumn("Correo");
+            TableColumn telefono1 = new TableColumn("Telefono");
+            TableColumn usuario1 = new TableColumn("Usuario");
+            TableColumn contrasenia1 = new TableColumn("Clave");
+            TableColumn rol1 = new TableColumn("Rol");
 
 
-            tabla.getColumns().addAll(cedula,usuario,contrasenia,nombre,apellido,telefono,correo,rol);
+            tabla.getColumns().addAll(cedula1,usuario1,contrasenia1,nombre1,apellido1,telefono1,correo1,rol1);
             
             con=new Conexion();
             con.connect();           
@@ -472,8 +438,6 @@ public final class AdmUsuarios {
 
             ArrayList<Persona> personas=new ArrayList();
             stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, comprador c where u.usuario=c.usuario");
-           // stmt2.setString(1, usuario.getText());
-            //stmt2.setString(2, clave.getText());
             rs2= stmt2.executeQuery();
 
 
@@ -512,7 +476,6 @@ public final class AdmUsuarios {
 
 
             while(rs2.next()){
-                System.out.println(rs2.getString("u.tipo"));
                     personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("tipo")));
 
             }
@@ -529,38 +492,38 @@ public final class AdmUsuarios {
 
 
 
-            nombre.setMinWidth(100);
-            nombre.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombres"));
+            nombre1.setMinWidth(100);
+            nombre1.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombres"));
 
 
-            apellido.setMinWidth(100);
-            apellido.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellidos"));
+            apellido1.setMinWidth(100);
+            apellido1.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellidos"));
 
 
 
-            correo.setMinWidth(200);
-            correo.setCellValueFactory(new PropertyValueFactory<Persona, String>("correo"));
+            correo1.setMinWidth(200);
+            correo1.setCellValueFactory(new PropertyValueFactory<Persona, String>("correo"));
 
 
-            cedula.setMinWidth(200);
-            cedula.setCellValueFactory(new PropertyValueFactory<Persona, String>("cedula"));
+            cedula1.setMinWidth(200);
+            cedula1.setCellValueFactory(new PropertyValueFactory<Persona, String>("cedula"));
 
 
-            usuario.setMinWidth(200);
-            usuario.setCellValueFactory(
+            usuario1.setMinWidth(200);
+            usuario1.setCellValueFactory(
                     new PropertyValueFactory<Persona, String>("usuario"));
 
 
-            telefono.setMinWidth(200);
-            telefono.setCellValueFactory(
+            telefono1.setMinWidth(200);
+            telefono1.setCellValueFactory(
                     new PropertyValueFactory<Persona, String>("telefono"));
 
-            contrasenia.setMinWidth(200);
-            contrasenia.setCellValueFactory(
+            contrasenia1.setMinWidth(200);
+            contrasenia1.setCellValueFactory(
                     new PropertyValueFactory<Persona, String>("contrasenia"));
 
-            rol.setMinWidth(200);
-            rol.setCellValueFactory(
+            rol1.setMinWidth(200);
+            rol1.setCellValueFactory(
                     new PropertyValueFactory<Persona, String>("rol"));
 
 
@@ -568,8 +531,6 @@ public final class AdmUsuarios {
 
             tabla.setItems(data);
 
-
-            // TODO code application logic here
         } catch (SQLException ex) {
             Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
@@ -578,7 +539,7 @@ public final class AdmUsuarios {
                     con.getCn().close();
                     rs2.close();
                 }catch (SQLException e) {
-                    System.out.println("Error grave: no se puede cerrar el objeto conexión");
+                    Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
         }
@@ -587,7 +548,7 @@ public final class AdmUsuarios {
     }
         
         
-    public boolean ValidarDatos(String usuario){
+    public boolean validarDatos(String usuario){
         ResultSet rs2 = null;
         try {
                     Conexion con=new Conexion();
@@ -601,18 +562,8 @@ public final class AdmUsuarios {
                     stmt2.setString(1, usuario);
                     
                     rs2= stmt2.executeQuery();
-                    if(!rs2.next()){
-                        return true;
-                        
-                    }else{
-                        //rs2.previous();
-                        return false;
-                        
-                    }
-                        
+            return !rs2.next();
 
-
-                // TODO code application logic here
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
                 return false;

@@ -11,21 +11,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 /**
  *
@@ -37,10 +33,6 @@ public class Registro {
     private BorderPane root;
    
     
-    private ComboBox rol;
-
-
-    private VBox box, n1,n2;
 
     Registro(){        
 
@@ -50,7 +42,10 @@ public class Registro {
 
     public void organizarpanel(){
         
-        
+             ComboBox rol;
+     VBox box;
+     VBox n1;
+     VBox n2;
              Button registrar;
             Button salir;
             HBox datos;
@@ -69,7 +64,6 @@ public class Registro {
             n1 = new VBox();
             n2 = new VBox();
             rol = new ComboBox();
-            //Atributos de la base de datos
             Conexion con=new Conexion();
             
             
@@ -92,13 +86,6 @@ public class Registro {
             
             
             rol.getItems().addAll("comprador","vendedor");
-            /*
-            lbluser = new Label("Ingrese usuario: ");
-            lblpass = new Label("Ingrese clave: ");
-            
-            lbluser.setTextFill(Color.web("#0076a3"));
-            lblpass.setTextFill(Color.web("#0076a3"));*/
-            
             usuario.setPromptText("Ingrese usuario");
             clave.setPromptText("Ingrese clave");
             nombre.setPromptText("Ingrese nombre");
@@ -127,41 +114,24 @@ public class Registro {
             
             box.setAlignment(Pos.CENTER);
             box.setSpacing(35);
-            
 
-           
-
-
-           /* inicio.setStyle("-fx-background-color: transparent; ");
-            ImageView image = new ImageView("/imagenes/jugargoku.png");
-            image.setFitWidth(260);
-            image.setFitHeight(150);
-            inicio.setGraphic(image);*/
-
-            DarEfectoBoton(registrar);
+            darEfectoBoton(registrar);
            registrar.setOnAction(e -> {
-               
-               //nombre,apellido,telefono,email,direccion,cedula,matricula,clave,usuario;
             if(usuario.getText().isEmpty()||nombre.getText().isEmpty()||telefono.getText().isEmpty()||email.getText().isEmpty()
                     ||direccion.getText().isEmpty()||cedula.getText().isEmpty()||matricula.getText().isEmpty()||
                     clave.getText().isEmpty()||(rol.getValue()==null)){
                  Alert alert = new Alert(Alert.AlertType.INFORMATION, "Advertencia, llene todos los campos.", ButtonType.OK);
                  alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                  alert.show();          
-                 //------------angel mira asi se obtiene el valor de un combo box System.out.println(rol.getValue()); si esta vacio bota null.--------
-
             }else{
 
-                if(ValidarDatos(usuario.getText())){
+                if(validarDatos(usuario.getText())){
                  try {                   
                      con.connect();
 
                      PreparedStatement stmt;
                      String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
                              + "VALUES (\""+usuario.getText()+"\",\""+clave.getText()+"\",\""+rol.getValue().toString()+"\")";
-
-
-
 
                      stmt = con.getCn().prepareStatement(query);
 
@@ -185,9 +155,6 @@ public class Registro {
                          PoliVentas.cambiarVentana(root, new PantallaComprador().getRoot());
 
                      }
-
-
-
                  } catch (SQLException ex) {
                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
                      try {
@@ -210,7 +177,7 @@ public class Registro {
 
            
            
-            DarEfectoBoton(salir);
+            darEfectoBoton(salir);
             salir.setOnAction(e->PoliVentas.cambiarVentana(root, new Inicio().getRoot()));
             
             
@@ -233,7 +200,7 @@ public class Registro {
         }
         
         
-        public void DarEfectoBoton(Button boton){
+        public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 
@@ -249,7 +216,8 @@ public class Registro {
         }
     
         
-        public static boolean ValidarDatos(String usuario){
+        public static boolean validarDatos(String usuario){
+            ResultSet rs2 = null;
         try {
                     Conexion con=new Conexion();
 
@@ -261,22 +229,21 @@ public class Registro {
                     stmt2 = con.getCn().prepareStatement("SELECT usuario FROM usuario where usuario=?");
                     stmt2.setString(1, usuario);
                     
-                    ResultSet rs2= stmt2.executeQuery();
-                    if(!rs2.next()){
-                        return true;
-                        
-                    }else{
-                        //rs2.previous();
-                        return false;
-                        
-                    }
-                        
+                    rs2= stmt2.executeQuery();
+                    return !rs2.next();
 
 
-                // TODO code application logic here
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
+            }finally{
+            if(rs2 != null){
+                try {
+                    rs2.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+        }
         }
 }

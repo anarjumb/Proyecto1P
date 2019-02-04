@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -30,14 +29,11 @@ import javafx.scene.layout.VBox;
  *
  * @author RBLOO
  */
-public class PantallaBusqueda {
+public final class PantallaBusqueda {
     
     private BorderPane root;
-    private Button btn_buscar;
-    private Button btn_salir;
-    private TextField tf_buscar;
-    private HBox panelSuperior;
-    private VBox box;
+    
+    private TextField tfbuscar;
     
     
     public PantallaBusqueda(){
@@ -45,25 +41,30 @@ public class PantallaBusqueda {
     }
     
     public void iniciarComponentes(){
+        
+     Button btnbuscar;
+     Button btnsalir;
+     HBox panelSuperior;
+     VBox box;
         root = new BorderPane();
         box = new VBox();
-        btn_buscar = new Button("Buscar");
-        btn_salir = new Button("Atrás");
-        tf_buscar = new TextField();
+        btnbuscar = new Button("Buscar");
+        btnsalir = new Button("Atrás");
+        tfbuscar = new TextField();
         panelSuperior = new HBox();
         
-        DarEfectoBoton(btn_salir);
-        DarEfectoBoton(btn_buscar);
+        darEfectoBoton(btnsalir);
+        darEfectoBoton(btnbuscar);
         
-        tf_buscar.setPromptText("Buscar producto...");
-        HBox.setHgrow(tf_buscar, Priority.ALWAYS);
+        tfbuscar.setPromptText("Buscar producto...");
+        HBox.setHgrow(tfbuscar, Priority.ALWAYS);
         
         HBox searchBar = new HBox();
-        searchBar.getChildren().add(tf_buscar);
+        searchBar.getChildren().add(tfbuscar);
         
         
         
-        panelSuperior.getChildren().addAll(searchBar, btn_buscar,btn_salir);
+        panelSuperior.getChildren().addAll(searchBar, btnbuscar,btnsalir);
         panelSuperior.setSpacing(50);
         panelSuperior.setAlignment(Pos.CENTER);
         
@@ -77,7 +78,7 @@ public class PantallaBusqueda {
                     + "-fx-background-size:" + Constantes.ANCHO + " " + Constantes.ALTO + ";");
 
         
-        btn_salir.setOnAction(e ->{
+        btnsalir.setOnAction(e ->{
             if(PoliVentas.getRol().equals("vendedor")){
                 PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
             }
@@ -86,17 +87,11 @@ public class PantallaBusqueda {
             }
             
                 });
-       // root.setTop(panelSuperior);
         root.setCenter(box);
        
-//        
-//        lbl_elemento.setTextFill(Color.web("#59FF33"));
-//        lbl_elemento.setFont(Font.font("Cambria", 27));
-        
-        
-        btn_buscar.setOnAction(e ->{ 
+        btnbuscar.setOnAction(e ->{ 
             
-                if(tf_buscar.getText().length()>=3){
+                if(tfbuscar.getText().length()>=3){
         
                     try {
                        Conexion con=new Conexion();
@@ -106,10 +101,8 @@ public class PantallaBusqueda {
 
                        stmt2 = con.getCn().prepareStatement("SELECT * FROM producto where nombre_producto LIKE '%?%' and descripcion= '%?%' ORDER BY calificacion_total");
 
-                        stmt2.setString(1, verificarTexto(tf_buscar.getText()).get(0));
-                        stmt2.setString(2, verificarTexto(tf_buscar.getText()).get(0));
-                       //stmt2.setString(1, tf_buscar.getText());
-                       //stmt2.setString(2, tf_buscar.getText());
+                        stmt2.setString(1, verificarTexto(tfbuscar.getText()).get(0));
+                        stmt2.setString(2, verificarTexto(tfbuscar.getText()).get(0));
                     
                         ResultSet rs2= stmt2.executeQuery();
                        if(!rs2.next()){
@@ -132,7 +125,7 @@ public class PantallaBusqueda {
                            alert.show();
 
 
-                   }                       // TODO code application logic here
+                   }                  
                     } catch (SQLException ex) {
                         Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -159,8 +152,8 @@ public class PantallaBusqueda {
         TableColumn<Producto, String> colNombre = new TableColumn<>("Nombre");
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 
-        TableColumn<Producto, String> colCategoría = new TableColumn<>("Categoría");
-        colCategoría.setCellValueFactory(new PropertyValueFactory<>("categoría"));
+        TableColumn<Producto, String> colCategoria = new TableColumn<>("Categoría");
+        colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoría"));
 
         TableColumn<Producto, Number> colPrecio = new TableColumn<>("Precio");
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
@@ -171,7 +164,7 @@ public class PantallaBusqueda {
         TableColumn<Producto, Number> colCalificacion = new TableColumn<>("Calificación");
         colCalificacion.setCellValueFactory(new PropertyValueFactory<>("calificacionProducto"));
 
-       tableView.getColumns().addAll(colNombre, colCategoría, colPrecio, colEntrega, colCalificacion);
+       tableView.getColumns().addAll(colNombre, colCategoria, colPrecio, colEntrega, colCalificacion);
        
        Producto p1 = new Producto(1,"Cargador","Telefonía",1,"2 días",4);
        Producto p2 = new Producto(2,"Mouse","Tecnología",5,"5 días",3);
@@ -185,30 +178,22 @@ public class PantallaBusqueda {
        ObservableList<Producto> obList = FXCollections.observableList(list);
        
        tableView.getItems().addAll(obList);
-       //Filtrado
+       
         FilteredList<Producto> filteredData = new FilteredList<>(obList, p -> true);
         tableView.setItems(filteredData);
         
-        //Verificar texto escrito
-        tf_buscar.textProperty().addListener((prop, old, text) -> {
+        tfbuscar.textProperty().addListener((prop, old, text) -> 
             filteredData.setPredicate(producto -> {
                 if(text == null || text.isEmpty()) return true;
                 String name = producto.getNombre().toLowerCase();  
                 return name.contains(text.toLowerCase());
-            });
-        });
-        
-//
-//        SortedList<Producto> sortedData = new SortedList<>(filteredData);
-//        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
-//
-//        tableView.setItems(sortedData);
-//        
+            })
+        );
        return tableView;
        
     }
     
-    public static ArrayList<String> verificarTexto(String cadena){
+    public static List<String> verificarTexto(String cadena){
         String palabra = "";
         ArrayList<String> parametros = new ArrayList<>();
         
@@ -224,7 +209,6 @@ public class PantallaBusqueda {
                 }
             }
         }
-        System.out.println(parametros);
         return parametros;
     }
     
@@ -244,7 +228,7 @@ public class PantallaBusqueda {
     }
     
     
-    public void DarEfectoBoton(Button boton){
+    public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #84307A;");
         
 
@@ -259,9 +243,3 @@ public class PantallaBusqueda {
             });
         }
 }
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */

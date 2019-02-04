@@ -10,16 +10,16 @@ package controladores;
  * @author adan
  */
 public class Producto {
-    private int id_producto;
+    private int idproducto;
     private String nombre;
     private String categoria;
     private float precio;
     private String tiempoEntrega;
     private int calificacionProducto;
 
-    public Producto(int id_producto, String nombre, String categoria, float precio){
+    public Producto(int idproducto, String nombre, String categoria, float precio){
         
-        this.id_producto = id_producto;
+        this.idproducto = idproducto;
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
@@ -27,8 +27,8 @@ public class Producto {
         calificacionProducto = 0;
     }
     
-    public Producto(int id_producto,String nombre, String categoria,float precio, String tiempoEntrega,int calificacionProducto) {
-        this.id_producto = id_producto;
+    public Producto(int idproducto,String nombre, String categoria,float precio, String tiempoEntrega,int calificacionProducto) {
+        this.idproducto = idproducto;
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
@@ -38,12 +38,12 @@ public class Producto {
         
     }
 
-    public int getId_producto() {
-        return id_producto;
+    public int getIdproducto() {
+        return idproducto;
     }
 
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
+    public void setIdproducto(int idproducto) {
+        this.idproducto = idproducto;
     }
 
     public String getNombre() {

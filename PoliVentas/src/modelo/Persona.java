@@ -5,8 +5,6 @@
  */
 package modelo;
 
-import java.util.Date;
-
 /**
  *
  * @author adan
@@ -21,7 +19,6 @@ public class Persona
     private String correo;
     private String usuario;
     private String contrasenia;
-    private String rol;
 
     public Persona() {
     }
@@ -35,7 +32,7 @@ public class Persona
         this.correo = correo;
         this.usuario = usuario;
         this.contrasenia = contrasenia;
-        this.rol = rol;
+      
     }
 
     

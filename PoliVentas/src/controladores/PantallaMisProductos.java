@@ -19,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -28,36 +27,39 @@ import javafx.scene.layout.VBox;
  *
  * @author RBLOO
  */
-public class PantallaMisProductos {
+public final class PantallaMisProductos {
     
     private BorderPane root;
     private TableView<Producto> tabla;
-    private VBox box,agregar;
-    private Button add,delete,edit, atras,add1;
-    private HBox botones;
-    private TextField nombre,categoria,precio;
+    private VBox box;
+    private VBox agregar;
+    
+    private Button add1;
+    
+    private TextField nombre;
+    private TextField categoria;
+    private TextField precio;
     private Conexion con=new Conexion();
     private ArrayList<Producto> productos;
     private String cedula="";
     
     public PantallaMisProductos(){
-        OrganizarPanel();
+        organizarPanel();
     }
     
     
     
-     public void PanelAdd(){
+     public void panelAdd(){
         
         add1 = new Button("Agregar");
-        DarEfectoBoton(add1);
+        darEfectoBoton(add1);
         agregar.getChildren().clear();
         box.getChildren().removeAll(agregar);
         
         
         
         
-        HBox n1 = new HBox();
-        HBox n2 = new HBox();
+    
         
         nombre = new TextField();
         categoria = new TextField();
@@ -84,7 +86,7 @@ public class PantallaMisProductos {
         box.getChildren().add(agregar);
         add1.setOnAction(e -> {box.getChildren().remove(agregar);
                                 agregrarProducto();
-                                System.out.println("Se agregó");        
+                                       
             }
         );
         
@@ -92,13 +94,9 @@ public class PantallaMisProductos {
         
     }
     
-    public void PanelEdit(){
-        
-        
-        
-        
+    public void panelEdit(){
         add1 = new Button("Edit");
-        DarEfectoBoton(add1);
+        darEfectoBoton(add1);
         
         nombre = new TextField();
         categoria = new TextField();
@@ -128,7 +126,7 @@ public class PantallaMisProductos {
         box.getChildren().add(agregar);
         add1.setOnAction(e -> {box.getChildren().remove(agregar);
                                 agregrarProducto();
-                                System.out.println("Se agregó");
+                               
                         }
         
         );
@@ -158,20 +156,11 @@ public class PantallaMisProductos {
     private void eliminarProducto(){
         Producto producto = tabla.getSelectionModel().getSelectedItem(); 
         if(producto != null){
-            //Obtiene el índice de seleción, el cual es la primary key del producto
-            //int index = tabla.getSelectionModel().selectedIndexProperty().get() + 1;
-            
             try {
                 Statement stmt = con.getCn().createStatement();
-               stmt.executeUpdate("DELETE FROM producto WHERE id_producto = " + producto.getId_producto() );
+               stmt.executeUpdate("DELETE FROM producto WHERE id_producto = " + producto.getIdproducto() );
                 
-               
-//                ResultSet rs2= stmt.executeQuery("SELECT * FROM producto WHERE id_producto = " + producto.getId_producto() );
-//                while(rs2.next()){
-//                    System.out.println(rs2.getString(1) + " " +rs2.getString(2) + " " +rs2.getString(6));
-//                }
-                mostrarResultados();
-                System.out.println("Se eliminó el producto: " +producto.getNombre());
+                crearAlerta("Se eliminó el producto: " +producto.getNombre());
                 
             } catch (SQLException ex) {
                 Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,19 +171,16 @@ public class PantallaMisProductos {
             crearAlerta("Seleccione un producto a eliminar.");
         }
     }
-    
-    //Relaciona la variable cedula con el usuario que ingresó al sistema
     private void relacionarCedula(){
         
+         ResultSet rs2 = null;
         try {
             PreparedStatement stmt;
-            
             
             stmt = con.getCn().prepareStatement("SELECT cedula FROM vendedor where usuario=?");
             
             stmt.setString(1, Inicio.getUsuario());
-            //stmt2.setString(2, clave.getText());
-            ResultSet rs2= stmt.executeQuery();
+            rs2= stmt.executeQuery();
             
             
             while(rs2.next()){
@@ -205,6 +191,14 @@ public class PantallaMisProductos {
             
         } catch (SQLException ex) {
             Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(rs2 !=null){
+                try {
+                    rs2.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
     
@@ -213,24 +207,16 @@ public class PantallaMisProductos {
         TableColumn nombre = new TableColumn("Nombre");
         TableColumn categoria = new TableColumn("Categoria");
         TableColumn precio = new TableColumn("Precio");
-        //TableColumn cantidad = new TableColumn("Cantidad");
-        
         nombre.setMinWidth(100);
-        
-       // tabla.setItems(data);
         
         tabla.getColumns().addAll(nombre,categoria,precio);
         
         nombre.setMinWidth(100);
         nombre.setCellValueFactory(
                 new PropertyValueFactory<Producto, String>("nombre"));
-
-        //TableColumn apellido = new TableColumn("Last Name");
         categoria.setMinWidth(100);
         categoria.setCellValueFactory(
                 new PropertyValueFactory<Producto, String>("categoria"));
-
-        //TableColumn emailCol = new TableColumn("Email");
         precio.setMinWidth(200);
         precio.setCellValueFactory(
                 new PropertyValueFactory<Producto, Float>("precio"));
@@ -238,7 +224,7 @@ public class PantallaMisProductos {
     private void mostrarResultados(){
         
         tabla.getItems().clear();
-        
+        ResultSet rs = null;
         try{
                     
 
@@ -252,10 +238,7 @@ public class PantallaMisProductos {
                     
                     stmt2 = con.getCn().prepareStatement("SELECT id_producto,nombre_producto,descripcion,precio FROM producto where cedula_vendedor=?");
                     stmt2.setString(1, cedula);
-                    //stmt2.setString(2, clave.getText());
-                    ResultSet rs= stmt2.executeQuery();
-                    
-                    //Vaciando los productos residuales, sirve cada ves que se vaya a actualizar
+                    rs= stmt2.executeQuery();
                     productos.clear();
                     
                     while(rs.next()){
@@ -265,19 +248,28 @@ public class PantallaMisProductos {
                     final ObservableList<Producto> data = FXCollections.observableArrayList(productos); 
                     tabla.setEditable(true);
                     tabla.setVisible(true);
-                            //TableColumn nombre = new TableColumn("First Name");
                     
                     tabla.getItems().addAll(data);
 
-
-                // TODO code application logic here
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+            if(rs !=null){
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+        }
     }
     
-    public void OrganizarPanel(){
-        
+    public void organizarPanel(){
+         Button delete;
+     Button edit;
+     Button atras;
+     HBox botones;
+        Button add;
         root = new BorderPane();
         tabla = new TableView<>();
         box = new VBox();
@@ -285,7 +277,6 @@ public class PantallaMisProductos {
         botones = new HBox();
         tabla.setEditable(true);
         productos =new ArrayList();
-        //Muestra los productos actuales
         crearTableView();
         mostrarResultados();
         
@@ -294,16 +285,16 @@ public class PantallaMisProductos {
         edit = new Button("Editar Producto");
         atras = new Button("Atrás");
         
-        DarEfectoBoton(add);
-        DarEfectoBoton(delete);
-        DarEfectoBoton(edit);
-        DarEfectoBoton(atras);
+        darEfectoBoton(add);
+        darEfectoBoton(delete);
+        darEfectoBoton(edit);
+        darEfectoBoton(atras);
         
         delete.setOnAction(e -> eliminarProducto());
         atras.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot()));
         
-        add.setOnAction(e -> PanelAdd());
-        edit.setOnAction(e -> PanelEdit());
+        add.setOnAction(e -> panelAdd());
+        edit.setOnAction(e -> panelEdit());
         
         
             
@@ -331,7 +322,7 @@ public class PantallaMisProductos {
         return root;
     }
     
-     public void DarEfectoBoton(Button boton){
+     public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 

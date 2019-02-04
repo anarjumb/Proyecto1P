@@ -51,14 +51,14 @@ public final class Inicio {
         
         Button inicio;
         Button salir;
-        HBox BoxUser;
+        HBox boxUser;
         TextField usuario;
         TextField clave;
         Label lbluser;
         Label lblpass;
             root = new BorderPane();
             box = new VBox();
-            BoxUser = new HBox();
+            boxUser = new HBox();
             boxlabel = new VBox();
             boxfield = new VBox();
             Conexion con = new Conexion();
@@ -99,6 +99,7 @@ public final class Inicio {
 
 
                     stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario=?");
+                    
                     nombreusuario = usuario.getText();
                     stmt2.setString(1, usuario.getText());
                     ResultSet rs2= stmt2.executeQuery();
@@ -159,12 +160,12 @@ public final class Inicio {
             boxlabel.setAlignment(Pos.TOP_LEFT);
             boxfield.setAlignment(Pos.BASELINE_LEFT);
             
-            BoxUser.getChildren().addAll(boxlabel,boxfield);
+            boxUser.getChildren().addAll(boxlabel,boxfield);
 
-            BoxUser.setAlignment(Pos.CENTER);
-            BoxUser.setSpacing(35);
+            boxUser.setAlignment(Pos.CENTER);
+            boxUser.setSpacing(35);
 
-            box.getChildren().addAll(BoxUser,inicio,salir);
+            box.getChildren().addAll(boxUser,inicio,salir);
 
             
 
