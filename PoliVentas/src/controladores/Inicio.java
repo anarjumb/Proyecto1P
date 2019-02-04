@@ -35,14 +35,7 @@ import javafx.scene.text.Font;
 public class Inicio {
     
     private BorderPane root;
-    private Button inicio;
-    private Button salir;
-    private HBox BoxUser;
-    private HBox BoxPass;
-    private TextField usuario;
-    private TextField clave;
-    private Label lbluser;
-     private Label lblpass;
+    
     private  static String nombreusuario;
     private VBox box;
     private VBox boxlabel;
@@ -57,6 +50,15 @@ public class Inicio {
     
     
     public void organizarpanel(){
+        
+        Button inicio;
+        Button salir;
+        HBox BoxUser;
+        HBox BoxPass;
+        TextField usuario;
+        TextField clave;
+        Label lbluser;
+        Label lblpass;
             root = new BorderPane();
             box = new VBox();
             BoxUser = new HBox();
