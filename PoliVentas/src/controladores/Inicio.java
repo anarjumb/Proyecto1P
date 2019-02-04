@@ -35,15 +35,18 @@ import javafx.scene.text.Font;
 public class Inicio {
     
     private BorderPane root;
-    private Button inicio, salir;
-    private HBox BoxUser, BoxPass;
-    private TextField usuario, clave;
-    private Label lbluser, lblpass;
+    private Button inicio;
+    private Button salir;
+    private HBox BoxUser;
+    private HBox BoxPass;
+    private TextField usuario;
+    private TextField clave;
+    private Label lbluser;
+     private Label lblpass;
     private  static String nombreusuario;
-    
-
-
-    private VBox box, boxlabel, boxfield;
+    private VBox box;
+    private VBox boxlabel;
+    private VBox boxfield;
 
     Inicio(){        
 
