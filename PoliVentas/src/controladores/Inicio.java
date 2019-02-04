@@ -5,8 +5,6 @@
  */
 package controladores;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -32,14 +29,12 @@ import javafx.scene.text.Font;
  *
  * @author adan
  */
-public class Inicio {
+public final class Inicio {
     
     private BorderPane root;
     
     private  static String nombreusuario;
-    private VBox box;
-    private VBox boxlabel;
-    private VBox boxfield;
+   
 
     Inicio(){        
 
@@ -50,11 +45,13 @@ public class Inicio {
     
     
     public void organizarpanel(){
+         VBox box;
+        VBox boxlabel;
+        VBox boxfield;
         
         Button inicio;
         Button salir;
         HBox BoxUser;
-        HBox BoxPass;
         TextField usuario;
         TextField clave;
         Label lbluser;
@@ -62,7 +59,6 @@ public class Inicio {
             root = new BorderPane();
             box = new VBox();
             BoxUser = new HBox();
-            BoxPass = new HBox();
             boxlabel = new VBox();
             boxfield = new VBox();
             Conexion con = new Conexion();
@@ -91,7 +87,7 @@ public class Inicio {
             
 
 
-            DarEfectoBoton(inicio);
+            darEfectoBoton(inicio);
             inicio.setOnAction(e -> {
                 
                 
@@ -105,7 +101,6 @@ public class Inicio {
                     stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario where usuario=?");
                     nombreusuario = usuario.getText();
                     stmt2.setString(1, usuario.getText());
-                   // stmt2.setString(2, clave.getText());
                     ResultSet rs2= stmt2.executeQuery();
                     if(!rs2.next()){
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "No existe ese usuario, registrese.", ButtonType.OK);
@@ -135,12 +130,8 @@ public class Inicio {
                             }
                           
                     }  
-
-                    
                 }
                 
-
-                // TODO code application logic here
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -149,14 +140,8 @@ public class Inicio {
             
             
             });
-            
-            
-            
            
-           
-           
-           
-            DarEfectoBoton(salir);
+            darEfectoBoton(salir);
             
             salir.setOnAction(e ->{Platform.exit();
                         con.desconectar();
@@ -203,7 +188,7 @@ public class Inicio {
             return nombreusuario;
             
         }
-         public void DarEfectoBoton(Button boton){
+         public void darEfectoBoton(Button boton){
             boton.setStyle("-fx-font: 18 arial; -fx-base: #b6e7c9;");
         
 
