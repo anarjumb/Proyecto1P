@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -24,7 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import modelo.Persona;
 
 /**
  *
@@ -35,9 +33,15 @@ public class AdmProducto {
     private BorderPane root;
     private TableView tabla;
     private VBox box,agregar;
-    private Button add,delete,edit, atras,add1;
+    private Button add;
+    private Button delete;
+    private Button edit; 
+    private Button atras;
+    private Button add1;
     private HBox botones;
-    private TextField nombre,categoria,precio;
+    private TextField nombre;
+    private TextField categoria; 
+    private TextField precio;
     
     public AdmProducto(){
         OrganizarPanel();
@@ -167,19 +171,18 @@ public class AdmProducto {
         
         
         tabla.getColumns().addAll(nombre,categoria,precio);
+        Conexion con=new Conexion();
+        PreparedStatement stmt2 = null;
+        ResultSet rs2 = null;
         
         try{
-                    Conexion con=new Conexion();
+                    
 
                     con.connect();           
-
-                    PreparedStatement stmt2;
-                    
                     ArrayList<Producto> productos=new ArrayList();
                     stmt2 = con.getCn().prepareStatement("SELECT id_producto,nombre_producto,descripcion,precio FROM producto");
-                   // stmt2.setString(1, usuario.getText());
-                    //stmt2.setString(2, clave.getText());
-                    ResultSet rs2= stmt2.executeQuery();
+          
+                     rs2= stmt2.executeQuery();
                     
                   
                     while(rs2.next()){
@@ -189,47 +192,38 @@ public class AdmProducto {
                     
                     
                     
-                  
-                    
-                    
-                    
                     final ObservableList<Producto> data = FXCollections.observableArrayList(productos); 
-                     
-                     
-                     
                      
                      
                     tabla.setEditable(true);
                     tabla.setVisible(true);
-
-
-                            //TableColumn nombre = new TableColumn("First Name");
+                         
                     nombre.setMinWidth(100);
-                    nombre.setCellValueFactory(
-                            new PropertyValueFactory<Producto, String>("nombre"));
+                    nombre.setCellValueFactory(new PropertyValueFactory<Producto, String>("nombre"));
 
-                    //TableColumn apellido = new TableColumn("Last Name");
+
                     categoria.setMinWidth(100);
-                    categoria.setCellValueFactory(
-                            new PropertyValueFactory<Producto, String>("categoria"));
+                    categoria.setCellValueFactory(new PropertyValueFactory<Producto, String>("categoria"));
 
-                    //TableColumn emailCol = new TableColumn("Email");
                     precio.setMinWidth(200);
                     precio.setCellValueFactory(
                             new PropertyValueFactory<Producto, Float>("precio"));
 
-                    
-
-
-
-
                     tabla.setItems(data);
 
-
-                // TODO code application logic here
+                    
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+            if (con != null && rs2 !=null) {
+                try {
+                    con.getCn().close();
+                    rs2.close();
+                }catch (SQLException e) {
+                    System.out.println("Error grave: no se puede cerrar el objeto conexión");
+                }
             }
+        }
             
             botones.getChildren().addAll(atras,add,delete,edit);
             botones.setSpacing(35);
