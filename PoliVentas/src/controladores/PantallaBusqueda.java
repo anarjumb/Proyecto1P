@@ -208,7 +208,7 @@ public class PantallaBusqueda {
        
     }
     
-    private ArrayList<String> verificarTexto(String cadena){
+    public static ArrayList<String> verificarTexto(String cadena){
         String palabra = "";
         ArrayList<String> parametros = new ArrayList<>();
         
@@ -228,7 +228,7 @@ public class PantallaBusqueda {
         return parametros;
     }
     
-    private boolean tiene3caracteres(String cadena){
+    public static boolean tiene3caracteres(String cadena){
         if(cadena.length() < 3){
             Alert alert = new Alert(AlertType.INFORMATION, "Advertencia, debes ingresar al menos tres caracteres diferentes de espacio.", ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

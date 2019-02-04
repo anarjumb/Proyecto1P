@@ -249,7 +249,7 @@ public class Registro {
         }
     
         
-        public boolean ValidarDatos(String usuario){
+        public static boolean ValidarDatos(String usuario){
         try {
                     Conexion con=new Conexion();
 
