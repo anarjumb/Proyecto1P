@@ -374,15 +374,17 @@ public class AdmUsuarios {
         
         
     public void Insertar() throws SQLException{
-        
+        Conexion con=null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
         try {                   
                    
                    
-                   Conexion con=new Conexion();          
+                   con=new Conexion();          
                   
                    con.connect();
                                   
-                   PreparedStatement stmt;
                    String query="INSERT INTO `usuario` (`usuario`, `contrasenia`, `tipo`)  "
                            + "VALUES (`"+usuario.getText()+"`,`"+clave.getText()+"`,`"+rol.getValue().toString()+"`)";
                    System.out.print(query);
@@ -390,15 +392,21 @@ public class AdmUsuarios {
                    stmt = con.getCn().prepareStatement(query);
                    
                    
-                   ResultSet rs= stmt.executeQuery();
+                   rs= stmt.executeQuery();
                    
                    query="INSERT INTO `"+rol.getValue().toString()+"` (`cedula`, `nombres`, `apellidos`, `correo`, `telefono`, `usuario`) "
                            + "VALUES (`"+cedula.getText()+"`,`"+nombre.getText()+"`,`"+apellido.getText()+"`,`"+email.getText()+"`,`"+telefono.getText()+"`,`"+usuario.getText()+"`)";
                    
                    stmt = con.getCn().prepareStatement(query);
                    
-                   
-                   ResultSet rs2= stmt.executeQuery();
+                   if(rs !=null){
+                        try {
+                            rs.close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                   rs2= stmt.executeQuery();
                    
                    if(rol.getValue()=="vendedor"){
                        PoliVentas.cambiarVentana(root, new PantallaVendedor().getRoot());
@@ -413,7 +421,17 @@ public class AdmUsuarios {
                    
                } catch (SQLException ex) {
                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-               }
+               }finally{
+            if (con != null && rs2 !=null && rs != null) {
+                try {
+                    con.getCn().close();
+                    rs2.close();
+                    rs.close();
+                }catch (SQLException e) {
+                    System.out.println("Error grave: no se puede cerrar el objeto conexión");
+                }
+            }
+        }
         
         
         
@@ -421,7 +439,9 @@ public class AdmUsuarios {
     
     
     public void CargarDatos(){
-        
+        Conexion con=null;
+        PreparedStatement stmt2 = null;
+        ResultSet rs2 = null;
         try {
 
             TableColumn cedula = new TableColumn("Cedula");
@@ -435,17 +455,17 @@ public class AdmUsuarios {
 
 
             tabla.getColumns().addAll(cedula,usuario,contrasenia,nombre,apellido,telefono,correo,rol);
-            Conexion con=new Conexion();
-
+            
+            con=new Conexion();
             con.connect();           
 
-            PreparedStatement stmt2;
+            
 
             ArrayList<Persona> personas=new ArrayList();
             stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, comprador c where u.usuario=c.usuario");
            // stmt2.setString(1, usuario.getText());
             //stmt2.setString(2, clave.getText());
-            ResultSet rs2= stmt2.executeQuery();
+            rs2= stmt2.executeQuery();
 
 
             while(rs2.next()){
@@ -453,7 +473,14 @@ public class AdmUsuarios {
                     personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("u.tipo")));
 
             }
-
+            
+            if(rs2!=null){
+                        try {
+                            rs2.close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
             stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, vendedor c where u.usuario=c.usuario");
             rs2= stmt2.executeQuery();
 
@@ -463,7 +490,14 @@ public class AdmUsuarios {
                     personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("u.tipo")));
 
             }
-
+            
+            if(rs2!=null){
+                        try {
+                            rs2.close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
             stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, administrador c where u.usuario=c.usuario");
             rs2= stmt2.executeQuery();
 
@@ -529,6 +563,15 @@ public class AdmUsuarios {
             // TODO code application logic here
         } catch (SQLException ex) {
             Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (con != null && rs2 !=null) {
+                try {
+                    con.getCn().close();
+                    rs2.close();
+                }catch (SQLException e) {
+                    System.out.println("Error grave: no se puede cerrar el objeto conexión");
+                }
+            }
         }
 
         
@@ -536,6 +579,7 @@ public class AdmUsuarios {
         
         
     public boolean ValidarDatos(String usuario){
+        ResultSet rs2 = null;
         try {
                     Conexion con=new Conexion();
 
@@ -547,7 +591,7 @@ public class AdmUsuarios {
                     stmt2 = con.getCn().prepareStatement("SELECT usuario FROM usuario where usuario=?");
                     stmt2.setString(1, usuario);
                     
-                    ResultSet rs2= stmt2.executeQuery();
+                    rs2= stmt2.executeQuery();
                     if(!rs2.next()){
                         return true;
                         
@@ -563,7 +607,15 @@ public class AdmUsuarios {
             } catch (SQLException ex) {
                 Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
-            }
+            }finally{
+            if(rs2!=null){
+                        try {
+                            rs2.close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+        }
         }
     }
     
