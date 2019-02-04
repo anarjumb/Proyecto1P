@@ -60,8 +60,8 @@ public class Inicio {
             BoxPass = new HBox();
             boxlabel = new VBox();
             boxfield = new VBox();
-            Conexion con = new Conexion();;
-
+            Conexion con = new Conexion();
+            
             inicio = new Button("Iniciar Sesion");
             salir = new Button("Salir");
             
