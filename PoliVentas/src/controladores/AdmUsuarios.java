@@ -39,7 +39,7 @@ import modelo.Persona;
  *
  * @author adan
  */
-public class AdmUsuarios {
+public final class AdmUsuarios {
     
     
     private BorderPane root;
@@ -47,7 +47,15 @@ public class AdmUsuarios {
     private VBox box,agregar;
     private Button add,delete,edit,atras,add1;
     private HBox botones;
-    private TextField usuario,clave,nombre,apellido,telefono,email,direccion,matricula,cedula;
+    private TextField usuario;
+    private Button clave;
+    private Button nombre;
+    private Button apellido;
+    private Button telefono;
+    private Button email;
+    private Button direccion;
+    private Button matricula;
+    private Button cedula;
     private ComboBox rol;
     
     public AdmUsuarios(){
