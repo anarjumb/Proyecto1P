@@ -170,38 +170,38 @@ public class PatallaCompras {
 
 
             nombre.setMinWidth(100);
-            nombre.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombres"));
+            nombre.setCellValueFactory(new PropertyValueFactory<>("nombres"));
 
 
             apellido.setMinWidth(100);
-            apellido.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellidos"));
+            apellido.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
 
 
 
             correo.setMinWidth(200);
-            correo.setCellValueFactory(new PropertyValueFactory<Persona, String>("correo"));
+            correo.setCellValueFactory(new PropertyValueFactory<>("correo"));
 
 
             cedula.setMinWidth(200);
-            cedula.setCellValueFactory(new PropertyValueFactory<Persona, String>("cedula"));
+            cedula.setCellValueFactory(new PropertyValueFactory<>("cedula"));
 
 
             usuario.setMinWidth(200);
             usuario.setCellValueFactory(
-                    new PropertyValueFactory<Persona, String>("usuario"));
+                    new PropertyValueFactory<>("usuario"));
 
 
             telefono.setMinWidth(200);
             telefono.setCellValueFactory(
-                    new PropertyValueFactory<Persona, String>("telefono"));
+                    new PropertyValueFactory<>("telefono"));
 
             contrasenia.setMinWidth(200);
             contrasenia.setCellValueFactory(
-                    new PropertyValueFactory<Persona, String>("contrasenia"));
+                    new PropertyValueFactory<>("contrasenia"));
 
             rol.setMinWidth(200);
             rol.setCellValueFactory(
-                    new PropertyValueFactory<Persona, String>("rol"));
+                    new PropertyValueFactory<>("rol"));
 
 
 
