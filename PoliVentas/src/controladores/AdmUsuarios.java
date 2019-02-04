@@ -43,20 +43,7 @@ public final class AdmUsuarios {
     
     
     private BorderPane root;
-    private TableView tabla;
-    private VBox box,agregar;
-    private Button add,delete,edit,atras,add1;
-    private HBox botones;
-    private TextField usuario;
-    private Button clave;
-    private Button nombre;
-    private Button apellido;
-    private Button telefono;
-    private Button email;
-    private Button direccion;
-    private Button matricula;
-    private Button cedula;
-    private ComboBox rol;
+ 
     
     public AdmUsuarios(){
         OrganizarPanel();
@@ -65,6 +52,20 @@ public final class AdmUsuarios {
     
     
     public void PanelAdd(){
+        TableView tabla;
+        VBox box,agregar;
+        Button add,delete,edit,atras,add1;
+        HBox botones;
+        TextField usuario;
+        Button clave;
+        Button nombre;
+        Button apellido;
+        Button telefono;
+        Button email;
+        Button direccion;
+        Button matricula;
+        Button cedula;
+        ComboBox rol;
         
         add1 = new Button("Agregar");
         DarEfectoBoton(add1);
