@@ -35,9 +35,7 @@ public class Registro {
     
       
     private BorderPane root;
-    private Button registrar, salir;
-    private HBox datos;
-    private TextField nombre,apellido,telefono,email,direccion,cedula,matricula,clave,usuario;
+   
     
     private ComboBox rol;
 
@@ -51,6 +49,20 @@ public class Registro {
     }
 
     public void organizarpanel(){
+        
+        
+             Button registrar;
+            Button salir;
+            HBox datos;
+            TextField nombre;
+            TextField apellido;
+            TextField telefono;
+            TextField email;
+            TextField direccion;
+            TextField cedula;
+            TextField matricula;
+            TextField clave;
+            TextField usuario;
             root = new BorderPane();
             box = new VBox();
             datos = new HBox();
