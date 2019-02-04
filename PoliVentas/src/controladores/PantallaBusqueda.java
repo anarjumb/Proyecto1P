@@ -223,6 +223,15 @@ public final class PantallaBusqueda {
         return true;
     }
     
+    public static boolean tiene3caracteres2(String cadena){
+        if(cadena.length() < 3){
+            
+            return false;
+        }
+        
+        return true;
+    }
+    
     public BorderPane getRoot(){
         return root;
     }

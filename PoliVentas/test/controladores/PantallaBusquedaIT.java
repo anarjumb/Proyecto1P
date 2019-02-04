@@ -20,16 +20,16 @@ public class PantallaBusquedaIT extends TestCase {
     
         
     public void testSimple() {
-        assertTrue( !PantallaBusqueda.tiene3caracteres(""));
+        assertTrue( !PantallaBusqueda.tiene3caracteres2(""));
     }
     
     public void testBueno(){
-        assertTrue(PantallaBusqueda.tiene3caracteres("aaaaa"));
+        assertTrue(PantallaBusqueda.tiene3caracteres2("aaaaa"));
         
     }
     
     public void testNumeros(){
-        assertTrue(PantallaBusqueda.tiene3caracteres("1234"));
+        assertTrue(PantallaBusqueda.tiene3caracteres2("1234"));
         
     }
     
