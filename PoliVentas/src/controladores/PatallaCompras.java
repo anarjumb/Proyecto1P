@@ -15,10 +15,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -34,8 +32,13 @@ public class PatallaCompras {
     
      private BorderPane root;
      private TableView tabla;
-    private VBox box,agregar;
-    private Button add,delete,edit,atras,add1;
+    private VBox box;
+    private VBox agregar;
+    private Button add;
+    private Button delete;
+    private Button edit;
+    private Button atras;
+    private Button add1;
     private HBox botones;
     
     private String usuario;
@@ -52,7 +55,6 @@ public class PatallaCompras {
         box = new VBox();
         botones = new HBox();
         agregar = new VBox();
-     //   agregar = new HBox();
         tabla.setEditable(true);
 
         add = new Button("Agregar Usuario");
@@ -65,32 +67,8 @@ public class PatallaCompras {
         
         atras.setOnAction(e -> PoliVentas.cambiarVentana(root, new PantallaAdministrador().getRoot()));
         
-        
-        
         CargarDatos();
         
-                
-        
-                
-                
-           
-        
-        
-        
-        /*
-        nombre.setMinWidth(100);
-        apellido.setMinWidth(50);
-        
-        
-        nombre.setCellFactory(new PropertyValueFactory("hola"));*/
-        
-       // tabla.setItems(data);
-        
-        
-        
-        
-
-            
             botones.getChildren().addAll(atras,add,delete,edit);
             botones.setSpacing(35);
             botones.setAlignment(Pos.CENTER);
@@ -116,7 +94,7 @@ public class PatallaCompras {
      
      
      public void CargarDatos(){
-        
+        ResultSet rs2 = null;
         try {
 
             TableColumn cedula = new TableColumn("Cedula");
@@ -138,16 +116,22 @@ public class PatallaCompras {
 
             ArrayList<Persona> personas=new ArrayList();
             stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, comprador c where u.usuario=c.usuario");
-           // stmt2.setString(1, usuario.getText());
-            //stmt2.setString(2, clave.getText());
-            ResultSet rs2= stmt2.executeQuery();
+            rs2= stmt2.executeQuery();
 
 
             while(rs2.next()){
                     personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("u.tipo")));
 
             }
-
+            
+            if(rs2 !=null){
+                try {
+                    rs2.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
             stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, vendedor c where u.usuario=c.usuario");
             rs2= stmt2.executeQuery();
 
@@ -156,7 +140,14 @@ public class PatallaCompras {
                     personas.add(new Persona(rs2.getString("cedula"), rs2.getString("nombres"), rs2.getString("apellidos"), rs2.getString("telefono"),rs2.getString("correo"), rs2.getString("u.usuario"), rs2.getString("contrasenia"), rs2.getString("u.tipo")));
 
             }
-
+            
+            if(rs2 !=null){
+                try {
+                    rs2.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             stmt2 = con.getCn().prepareStatement("SELECT * FROM usuario u, administrador c where u.usuario=c.usuario");
             rs2= stmt2.executeQuery();
 
@@ -221,6 +212,14 @@ public class PatallaCompras {
             // TODO code application logic here
         } catch (SQLException ex) {
             Logger.getLogger(PoliVentas.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(rs2 !=null){
+                try {
+                    rs2.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PantallaMisProductos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
 
         
